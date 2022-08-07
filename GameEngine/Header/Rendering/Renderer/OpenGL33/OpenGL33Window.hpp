@@ -16,12 +16,14 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Rendering/Renderer/IWindow.hpp>
 
 namespace GE{
-   class OpenGl33Window : public IWindow {
+   class OpenGL33Window : public IWindow {
    public:
-      ~OpenGl33Window() override;
+      ~OpenGL33Window() override;
 
       void initialize(const SWindowCreateInfo &windowInfos) final;
       void release() final;
+   private:
+      bool isInitialized = false;
    };
 }
 

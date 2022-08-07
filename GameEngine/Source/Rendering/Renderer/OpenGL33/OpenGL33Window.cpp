@@ -12,17 +12,21 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <stdexcept>
 #include <iostream>
-#include "Rendering/Renderer/OpenGL33/OpenGl33Window.hpp"
+#include "Rendering/Renderer/OpenGL33/OpenGL33Window.hpp"
 
 void errorCallback(int error, const char *description) {
-   throw std::runtime_error(std::string("Error glfw:") + description);
+   throw std::runtime_error(
+      std::string("Error glfw:") + std::to_string(error) + " - "
+                                                           "" + description);
 }
 
-GE::OpenGl33Window::~OpenGl33Window() {
+GE::OpenGL33Window::~OpenGL33Window() {
    release();
 }
 
-void GE::OpenGl33Window::initialize(const GE::SWindowCreateInfo &windowInfos) {
+void GE::OpenGL33Window::initialize(const GE::SWindowCreateInfo &windowInfos) {
+   if (isInitialized) release();
+
    std::cout << "Initializing the OpenGl 3.3 window ..." << std::endl;
    if (!glfwInit()) {
       throw std::runtime_error("Failed init glfw !");
@@ -54,11 +58,15 @@ void GE::OpenGl33Window::initialize(const GE::SWindowCreateInfo &windowInfos) {
    }
 
    glfwSetInputMode(pWindow, GLFW_STICKY_KEYS, GL_TRUE);
+   isInitialized = true;
    std::cout << "OpenGL 3.3 window initialized." << std::endl;
 }
 
-void GE::OpenGl33Window::release() {
+void GE::OpenGL33Window::release() {
+   if (!isInitialized) return;
+
    glfwTerminate();
    pWindow = nullptr;
+   isInitialized = false;
    std::cout << "OpenGL 3.3 window released." << std::endl;
 }

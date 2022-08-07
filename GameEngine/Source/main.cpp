@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstdlib>
-#include "Rendering/Renderer/OpenGL33/OpenGl33Window.hpp"
+#include "GameEngine.hpp"
 
 
 int main() {
@@ -10,28 +10,32 @@ int main() {
    windowInfos.windowHeight = 720;
    windowInfos.windowWidth = 1280;
 
-   GE::OpenGl33Window openGLWindow;
+   GE::SRendererCreateInfo rendererInfos = {};
+   rendererInfos.windowCreateInfo = &windowInfos;
+   rendererInfos.rendererType = GE::ERendererType::Opengl33;
 
-   try{
-      openGLWindow.initialize(windowInfos);
-   }catch (const std::runtime_error& error){
+   GE::SRenderingEngineCreateInfo renderingEngineInfos = {};
+   renderingEngineInfos.renderingEnginyType =
+      GE::ERenderingEnginyType::Rasterization;
+   renderingEngineInfos.pRendererCreateInfo = &rendererInfos;
+
+   GE::SGameEngineCreateInfo gameEngineInfos = {};
+   gameEngineInfos.pRenderingEngineCreateInfo = &renderingEngineInfos;
+
+   GE::GameEngine ge;
+
+   try {
+      ge.Initialize(gameEngineInfos);
+      ge.run();
+
+   } catch (const std::runtime_error &error) {
+      std::cerr << "Exception: " << error.what() << std::endl;
+      return EXIT_FAILURE;
+   } catch (const std::bad_alloc &error) {
       std::cerr << "Exception: " << error.what() << std::endl;
       return EXIT_FAILURE;
    }
 
-
-   auto pWindow = openGLWindow.getHandle();
-
-   while (!glfwWindowShouldClose(pWindow)
-          && glfwGetKey(pWindow, GLFW_KEY_ESCAPE) != GLFW_PRESS) {
-
-      // Draw Loop
-
-      glfwSwapBuffers(pWindow);
-      glfwPollEvents();
-   }
-
-   glfwTerminate();
 
    return EXIT_SUCCESS;
 }
