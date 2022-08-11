@@ -12,9 +12,6 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <iostream>
 #include "Rendering/Renderer/OpenGL33/OpenGL33Renderer.hpp"
-#include "Glew/glew.h"
-#include "Glfw/glfw3.h"
-#include <Glew/glew.h>
 
 
 GE::OpenGL33Renderer::~OpenGL33Renderer() {

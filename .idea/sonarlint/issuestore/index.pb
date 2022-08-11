@@ -1,32 +1,20 @@
 
 b
 2GameEngine/Source/Rendering/Renderer/IRenderer.cpp,8\9\89248509924598c27a9187886b2c51413b709625
-`
-0GameEngine/Source/Rendering/IRenderingEngine.cpp,c\6\c6ead68ab186f1ee008cffc6566b7faeb5f393d2
 P
  GameEngine/Header/GameEngine.hpp,6\a\6a348bbbe60b40adc72d5e2769c2fe59f9f4f0fa
 J
 GameEngine/Source/main.cpp,1\d\1d5117f238d4545444483f67ee5c4819628822d4
-P
- GameEngine/Source/GameEngine.cpp,8\f\8fcb8c8a42da021b386d6d43cd3aba4daff8d53d
 G
 ThirdParty/Glfw/glfw3.h,6\a\6ad20d740df89ecaac29215cce80d4b14a2b08bd
 S
 #GameEngine/Source/Shader/Shader.cpp,f\4\f45228d37a6eb49ed02eb060027bb82ea04b545b
-b
-2GameEngine/Header/Rendering/Renderer/IRenderer.hpp,c\1\c1e849b04b021ff3e75af3b62adc907a7ec51e4b
 q
 AGameEngine/Source/Rendering/Rasterization/RasterizationEngine.cpp,2\5\2597777cf07bb9c018b71e66ed596de7f9506475
-S
-#GameEngine/Header/Shader/Shader.hpp,f\5\f54ebdd63aadb2498e8c3ea64953229a5974a0c8
 q
 AGameEngine/Header/Rendering/Rasterization/RasterizationEngine.hpp,0\1\016f342b6ce2c197f1aaf8d8234609efefb3de77
-`
-0GameEngine/Source/Rendering/Renderer/IWindow.cpp,8\a\8aa82c89e8394acf671fc6f0da4d624dd4f3576e
 p
 @GameEngine/Source/Rendering/Renderer/OpenGL33/OpenGL33Window.cpp,e\b\eb26010a6857b8ac7693695e31d37b016504389c
-`
-0GameEngine/Header/Rendering/Renderer/IWindow.hpp,e\c\ec1110dde719974d6747460bdc72587f000ee0fe
 `
 0GameEngine/Header/Rendering/IRenderingEngine.hpp,d\6\d6054677d45466e10c0b4516f682cfaf98b93462
 p

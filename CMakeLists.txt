@@ -3,12 +3,22 @@ project(GameEngine)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB_RECURSE ENGINE_SOURCES *.cpp *.c)
-file(GLOB_RECURSE ENGINE_HEADERS *.hpp *.h *.ini)
+include_directories(GameEngine/Header)
+add_subdirectory(GameEngine/Source)
 
-ADD_EXECUTABLE(GameEngine ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 
 add_definitions(-DGLEW_STATIC)
-add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
-add_subdirectory(lib/glew EXCLUDE_FROM_ALL)
-add_subdirectory(lib/glm EXCLUDE_FROM_ALL)
+add_subdirectory(Lib/glfw EXCLUDE_FROM_ALL)
+add_subdirectory(Lib/glew EXCLUDE_FROM_ALL)
+add_subdirectory(Lib/glm EXCLUDE_FROM_ALL)
+
+target_link_libraries(GameEngine
+        glfw
+        libglew_static
+        glm
+        )
+
+target_include_directories(GameEngine
+        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src
+        )

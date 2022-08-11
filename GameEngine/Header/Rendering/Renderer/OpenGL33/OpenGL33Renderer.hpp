@@ -17,7 +17,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Shader/Shader.hpp>
 #include <memory>
 #include "OpenGL33Window.hpp"
-#include "Glew/glew.h"
+#include "GL/glew.h"
 
 namespace GE {
    class OpenGL33Renderer : public IRenderer {

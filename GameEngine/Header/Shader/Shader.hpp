@@ -14,7 +14,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define GAMEENGINE_SHADER_HPP
 
 #include <string>
-#include "Glew/glew.h"
+#include "GL/glew.h"
 
 namespace GE {
    class Shader {

@@ -13,8 +13,8 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #ifndef GAMEENGINE_IWINDOW_HPP
 #define GAMEENGINE_IWINDOW_HPP
 
-#include "Glew/glew.h"
-#include "Glfw/glfw3.h"
+#include "GL/glew.h"
+#include "GLFW/glfw3.h"
 
 namespace GE{
 
