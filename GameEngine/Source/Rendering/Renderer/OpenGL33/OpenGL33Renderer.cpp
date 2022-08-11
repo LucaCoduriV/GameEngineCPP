@@ -12,27 +12,62 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <iostream>
 #include "Rendering/Renderer/OpenGL33/OpenGL33Renderer.hpp"
+#include "Glew/glew.h"
+#include "Glfw/glfw3.h"
+#include <Glew/glew.h>
+
 
 GE::OpenGL33Renderer::~OpenGL33Renderer() {
    release();
 }
 
 void GE::OpenGL33Renderer::initialize(const GE::SRendererCreateInfo &createInfo) {
-   if(isInitialized) release();
+   if (isInitialized) release();
 
 
    window.initialize(*createInfo.windowCreateInfo);
    pWindow = &window;
    isInitialized = true;
 
+   shader = std::make_unique<Shader>(
+      "B:\\Users\\lucac\\Documents\\GitHub\\GameEngine\\GameEngine"
+      "\\Source\\Shader\\Files\\vertex.glsl",
+      "B:\\Users\\lucac\\Documents\\GitHub\\GameEngine\\GameEngine\\Source\\Shader\\Files\\fragment.glsl");
+
+
+   glGenVertexArrays(1, &VAO);
+   glGenBuffers(1, &VBO);
+   // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
+   glBindVertexArray(VAO);
+
+   glBindBuffer(GL_ARRAY_BUFFER, VBO);
+   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+   // position attribute
+   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+   glEnableVertexAttribArray(0);
+   // color attribute
+   glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+   glEnableVertexAttribArray(1);
+
    std::cout << "OpenGL 3.3 renderer initialized." << std::endl;
 }
 
 void GE::OpenGL33Renderer::release() {
-   if(!isInitialized) return;
+   if (!isInitialized) return;
 
    window.release();
    pWindow = nullptr;
    isInitialized = false;
    std::cout << "OpenGL 3.3 renderer released." << std::endl;
+}
+
+void GE::OpenGL33Renderer::render(float lag) {
+   glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+   glClear(GL_COLOR_BUFFER_BIT);
+
+   // render the triangle
+   shader->use();
+   glBindVertexArray(VAO);
+   glDrawArrays(GL_TRIANGLES, 0, 3);
 }

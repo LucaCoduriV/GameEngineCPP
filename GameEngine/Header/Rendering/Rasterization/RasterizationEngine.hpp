@@ -15,18 +15,20 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <Rendering/IRenderingEngine.hpp>
 
-namespace GE{
+namespace GE {
    class RasterizationEngine : public IRenderingEngine {
    public:
       ~RasterizationEngine() override;
 
-      void initialize(const SRenderingEngineCreateInfo &renderingEngineCreateInfo) final;
+      void
+      initialize(const SRenderingEngineCreateInfo &renderingEngineCreateInfo) final;
+
       void release() final;
+
       void render(float lag) final;
    };
+
 }
-
-
 
 
 #endif //GAMEENGINE_RASTERIZATIONENGINE_HPP

@@ -14,6 +14,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <iostream>
 #include "Rendering/Renderer/OpenGL33/OpenGL33Window.hpp"
 
+
 void errorCallback(int error, const char *description) {
    throw std::runtime_error(
       std::string("Error glfw:") + std::to_string(error) + " - "

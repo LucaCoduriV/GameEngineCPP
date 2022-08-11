@@ -1,0 +1,8 @@
+
+	cpp:S5350,"qMake the type of this variable a reference-to-const. The current type of "e" is "class std::ios_base::failure &".(¼Í½Ô8Ö¶÷Ì¨0
+;	cpp:S49627"Use the "nullptr" literal.(ØÕ›üÿÿÿÿ8×¶÷Ì¨0
+6	cpp:S4962<"Use the "nullptr" literal.(—ßİë8×¶÷Ì¨0
+J	cpp:S5817J")This function should be declared "const".(Ã‹É®şÿÿÿÿ8Ø¶÷Ì¨0
+S	cpp:S5945m"2Use "std::string" instead of a C-style char array.(Øš†üÿÿÿÿ8İ¶÷Ì¨0
+;	cpp:S4962q"Use the "nullptr" literal.( ¯€Õşÿÿÿÿ8Ş¶÷Ì¨0
+6	cpp:S4962z"Use the "nullptr" literal.(ëÈşØ8ß¶÷Ì¨0

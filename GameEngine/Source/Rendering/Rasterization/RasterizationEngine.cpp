@@ -16,6 +16,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "Rendering/Rasterization/RasterizationEngine.hpp"
 
 namespace GE {
+
    void RasterizationEngine::initialize(
       const GE::SRenderingEngineCreateInfo &renderingEngineCreateInfo) {
       if(isInitialized) release();
@@ -52,6 +53,10 @@ namespace GE {
    }
 
    void RasterizationEngine::render(float lag) {
+
+
+      pRenderer->render(lag);
+
       glfwSwapBuffers(pRenderer->getWindow()->getHandle());
    }
 

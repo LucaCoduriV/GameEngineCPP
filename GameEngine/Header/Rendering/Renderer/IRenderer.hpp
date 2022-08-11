@@ -32,6 +32,7 @@ namespace GE {
       virtual ~IRenderer() = default;
       virtual void initialize(const SRendererCreateInfo& createInfo) = 0;
       virtual void release() = 0;
+      virtual void render(float lag) = 0;
 
       IWindow* getWindow();
    protected:
