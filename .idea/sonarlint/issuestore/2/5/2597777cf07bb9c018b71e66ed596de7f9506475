@@ -1,6 +1,0 @@
-
-Ncpp:S131".Add a "default" case to this switch statement.(–ğãıüÿÿÿÿ8¯šûÍ¨0
-r	cpp:S5025"QReplace the use of "new" with an operation that automatically manages the memory.(ñ¸ó°ûÿÿÿÿ8ÛÁŸÎ¨0
-`cpp:S112"FDefine and throw a dedicated exception instead of using a generic one.(“Ÿèe8°šûÍ¨0
-fcpp:S112"FDefine and throw a dedicated exception instead of using a generic one.(ƒºßıÿÿÿÿ8±šûÍ¨0
-V	cpp:S5025/":Rewrite the code so that you no longer need this "delete".(ÔôñÏ8²šûÍ¨0

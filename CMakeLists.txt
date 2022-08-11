@@ -18,7 +18,7 @@ target_link_libraries(GameEngine
         glm
         )
 
-target_include_directories(GameEngine
-        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
-        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src
-        )
+#target_include_directories(GameEngine
+#        PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+#        PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/src
+#        )
