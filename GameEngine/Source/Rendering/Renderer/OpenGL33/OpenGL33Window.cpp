@@ -14,6 +14,10 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <iostream>
 #include "Rendering/Renderer/OpenGL33/OpenGL33Window.hpp"
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+   glViewport(0, 0, width, height);
+}
 
 void errorCallback(int error, const char *description) {
    throw std::runtime_error(
@@ -44,6 +48,8 @@ void GE::OpenGL33Window::initialize(const GE::SWindowCreateInfo &windowInfos) {
                               windowInfos.windowHeight,
                               windowInfos.windowTitle,
                               nullptr, nullptr);
+
+   glfwSetFramebufferSizeCallback(pWindow, framebuffer_size_callback);
 
    if (!pWindow) {
       glfwTerminate();

@@ -40,26 +40,18 @@ void GE::OpenGL33Renderer::initialize(const GE::SRendererCreateInfo &createInfo)
    glBindBuffer(GL_ARRAY_BUFFER, VBO);
    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)0);
+   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(3 * sizeof(float)));
    glEnableVertexAttribArray(0);
+   glEnableVertexAttribArray(1);
 
    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
    glBindBuffer(GL_ARRAY_BUFFER, 0);
+   glBindBuffer(GL_ARRAY_BUFFER, 1);
 
-   // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-   // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-   glBindVertexArray(0);
+
 
    std::cout << "OpenGL 3.3 renderer initialized." << std::endl;
-}
-
-void GE::OpenGL33Renderer::release() {
-   if (!isInitialized) return;
-
-   window.release();
-   pWindow = nullptr;
-   isInitialized = false;
-   std::cout << "OpenGL 3.3 renderer released." << std::endl;
 }
 
 void GE::OpenGL33Renderer::render(float lag) {
@@ -70,4 +62,13 @@ void GE::OpenGL33Renderer::render(float lag) {
    shader->use();
    glBindVertexArray(VAO);
    glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void GE::OpenGL33Renderer::release() {
+   if (!isInitialized) return;
+
+   window.release();
+   pWindow = nullptr;
+   isInitialized = false;
+   std::cout << "OpenGL 3.3 renderer released." << std::endl;
 }

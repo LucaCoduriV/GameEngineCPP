@@ -33,9 +33,9 @@ namespace GE {
       OpenGL33Window window;
       unsigned int VBO, VAO, EBO;
       static constexpr float vertices[] = {
-         -0.5f, -0.5f, 0.0f, // left
-         0.5f, -0.5f, 0.0f, // right
-         0.0f,  0.5f, 0.0f  // top
+         -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // left
+         0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,// right
+         0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f// top
       };
 
       static constexpr unsigned int indices[] = {  // Notons que l’on commence à 0!
