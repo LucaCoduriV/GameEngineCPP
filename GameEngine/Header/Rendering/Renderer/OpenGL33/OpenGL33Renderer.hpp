@@ -33,15 +33,24 @@ namespace GE {
       OpenGL33Window window;
       unsigned int VBO, VAO, EBO;
       static constexpr float vertices[] = {
-         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,
-         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-         -0.5f,  0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f,
+//         0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+//         0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,
+//         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+//         -0.5f,  0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 1.0f,
+
+         // first triangle
+         -0.9f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+         -0.0f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,
+         -0.45f, 0.5f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f,
+         // second triangle
+         0.0f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+         0.9f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f,
+         0.45f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f, 1.0f
       };
 
       static constexpr unsigned int indices[] = {  // Notons que l’on commence à 0!
-         0, 1, 3,   // premier triangle
-         1, 2, 3    // second triangle
+         0, 1, 2,   // premier triangle
+         3,4,5    // second triangle
       };
 
       std::unique_ptr<Shader> shader;

@@ -4,7 +4,9 @@ in vec4 fragmentColors;
 
 out vec4 FragColor;
 
+uniform float ourColor;
+
 void main()
 {
-    FragColor = fragmentColors; //vec4(1.0f, 0.5f, 0.2f, 1.0f);
+    FragColor = vec4(fragmentColors.r, ourColor, fragmentColors.b, fragmentColors.a);
 }
