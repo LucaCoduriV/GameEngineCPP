@@ -77,3 +77,5 @@ fabric.properties
 /Lib/glew/
 /Lib/glfw/
 /Lib/glm/
+
+.idea/sonarlint/
