@@ -151,5 +151,10 @@ int Shader::getUniformLocation(const std::string &name) {
 
 }
 
+void Shader::setMat4f(const std::string &name, const glm::mat4& value) {
+   GLCall(glUniformMatrix4fv(getUniformLocation(name.c_str()), 1, GL_FALSE,
+                         &value[0][0]));
+}
+
 
 

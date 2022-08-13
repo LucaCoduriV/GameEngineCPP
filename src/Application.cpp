@@ -8,6 +8,8 @@
 #include <VertexArray.hpp>
 #include <cmath>
 #include <Texture.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 int main(void) {
@@ -18,7 +20,7 @@ int main(void) {
       return -1;
 
    /* Create a windowed mode window and its OpenGL context */
-   window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+   window = glfwCreateWindow(720, 480, "Hello World", NULL, NULL);
    if (!window) {
       glfwTerminate();
       return -1;
@@ -40,10 +42,10 @@ int main(void) {
       /////////////////////////// SETUP //////////////////////
 
       float positions[] = {
-         0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
-         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
-         -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left
+         200.0f,  200.0f, 0.0f,   1.0f, 1.0f, // top right
+         200.0f, 100.0f, 0.0f,   1.0f, 0.0f, // bottom right
+         100.0f, 100.0f, 0.0f,   0.0f, 0.0f, // bottom left
+         100.0f,  200.0f, 0.0f,   0.0f, 1.0f  // top left
       };
 
       unsigned int indices[] = {
@@ -67,6 +69,8 @@ int main(void) {
 
       IndexBuffer ib(indices, 6);
 
+      glm::mat4 proj = glm::ortho(0.0f, 720.0f, 0.0f, 480.0f, -1.0f, 1.0f);
+
       Shader shader(
          R"(B:\Users\lucac\Documents\GitHub\GameEngine\res\shaders\vertex.glsl)",
          R"(B:\Users\lucac\Documents\GitHub\GameEngine\res\shaders\fragment.glsl)");
@@ -74,6 +78,7 @@ int main(void) {
       shader.bind();
       texture.bind();
       shader.setInt("ourText", 0);
+      shader.setMat4f("u_mvp", proj);
 
       VertexArray::unbind();
       Shader::unbind();

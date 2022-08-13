@@ -16,6 +16,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <string>
 #include <unordered_map>
 #include "GL/glew.h"
+#include <glm/glm.hpp>
 
 
 class Shader {
@@ -46,6 +47,8 @@ public:
 
    void setFloat(const std::string &name, float value, float value2, float value3,
                  float value4);
+
+   void setMat4f(const std::string &name, const glm::mat4& value);
 
 private:
    [[nodiscard]] int getUniformLocation(const std::string &name);
