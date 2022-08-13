@@ -1,4 +1,9 @@
 #include <GL/glew.h>
+#include "vendor/imgui/imgui_impl_glfw_gl3.h"
+#include "vendor/imgui/imgui.h"
+
+
+
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <Renderer.hpp>
@@ -11,6 +16,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+   glViewport(0, 0, width, height);
+}
 
 int main(void) {
    GLFWwindow *window;
@@ -33,7 +42,7 @@ int main(void) {
       std::cerr << "Error glewInit" << std::endl;
       return 0;
    }
-
+   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
    std::cout << glGetString(GL_VERSION) << std::endl;
 
 
@@ -87,11 +96,21 @@ int main(void) {
 
       Renderer renderer;
 
+      ImGui::CreateContext();
+      ImGui::StyleColorsDark();
+      ImGui_ImplGlfwGL3_Init(window, true);
+
+      bool show_demo_window = true;
+      bool show_another_window = false;
+      ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+
+
       ////////////////////////////////////////////////////////
 
       /* Loop until the user closes the window */
       while (!glfwWindowShouldClose(window)) {
          glfwPollEvents();
+         ImGui_ImplGlfwGL3_NewFrame();
 
          renderer.clear();
          texture.bind();
@@ -103,10 +122,37 @@ int main(void) {
 
          renderer.draw(va, ib, shader);
 
+         {
+            static float f = 0.0f;
+            ImGui::Text("Hello, world!");                           // Some text (you can use a format string too)
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float as a slider from 0.0f to 1.0f
+            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats as a color
+            if (ImGui::Button("Demo Window"))                       // Use buttons to toggle our bools. We could use Checkbox() as well.
+               show_demo_window ^= 1;
+            if (ImGui::Button("Another Window"))
+               show_another_window ^= 1;
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+         }
+         if (show_another_window)
+         {
+            ImGui::Begin("Another Window", &show_another_window);
+            ImGui::Text("Hello from another window!");
+            ImGui::End();
+         }
+         if (show_demo_window)
+         {
+            ImGui::SetNextWindowPos(ImVec2(650, 20), ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
+            ImGui::ShowDemoWindow(&show_demo_window);
+         }
+
+
+         ImGui::Render();
+
          glfwSwapBuffers(window);
       }
    }
 
+   ImGui_ImplGlfwGL3_Shutdown();
    glfwTerminate();
    return 0;
 }

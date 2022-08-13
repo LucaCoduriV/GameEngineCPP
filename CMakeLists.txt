@@ -11,9 +11,14 @@ add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glew EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glm EXCLUDE_FROM_ALL)
 
+file(GLOB files
+        "header/vendor/*/*.h"
+        "src/vendor/*/*.cpp"
+        "header/vendor/*/*.hpp"
+        )
+
 add_executable(App
-        src/vendor/stb_image/stb_image.cpp
-        header/vendor/stb_image/stb_image.h
+        ${files}
         src/Application.cpp
         src/Shader.cpp
         header/Shader.hpp
