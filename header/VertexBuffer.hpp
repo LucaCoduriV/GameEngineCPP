@@ -15,7 +15,14 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 
 class VertexBuffer {
+public:
+   VertexBuffer(const void* data, unsigned int size);
+   ~VertexBuffer();
 
+   void bind() const;
+   static void unbind();
+private:
+   unsigned int rendererID = 0;
 };
 
 

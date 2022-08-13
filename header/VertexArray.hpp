@@ -14,8 +14,21 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define GAMEENGINE_VERTEXARRAY_HPP
 
 
-class VertexArray {
+#include "VertexBuffer.hpp"
+#include "VertexBufferLayout.hpp"
 
+class VertexArray {
+public:
+   VertexArray();
+   ~VertexArray();
+
+   void addBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
+
+   void bind() const;
+   static void unbind();
+
+private:
+   unsigned int rendererID;
 };
 
 

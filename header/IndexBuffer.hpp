@@ -15,7 +15,15 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 
 class IndexBuffer {
+public:
+   IndexBuffer(const unsigned int* data, unsigned int count);
+   ~IndexBuffer();
 
+   void bind() const;
+   static void unbind();
+private:
+   unsigned int rendererID = 0;
+   unsigned int count;
 };
 
 

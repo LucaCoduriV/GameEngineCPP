@@ -74,8 +74,8 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 /cmake-build-debug/
-/Lib/glew/
-/Lib/glfw/
-/Lib/glm/
+/lib/glew/
+/lib/glfw/
+/lib/glm/
 
 .idea/sonarlint/
