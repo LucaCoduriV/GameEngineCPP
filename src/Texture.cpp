@@ -17,7 +17,6 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 Texture::Texture(std::string path) : filePath(move(path)) {
    stbi_set_flip_vertically_on_load(1);
-   localBuffer = stbi_load(filePath.c_str(), &width, &height, &bpp, 4);
 
    GLCall(glGenTextures(1, &rendererID));
    GLCall(glBindTexture(GL_TEXTURE_2D, rendererID));
@@ -28,18 +27,21 @@ Texture::Texture(std::string path) : filePath(move(path)) {
    GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 
-
-   if(localBuffer){
+   localBuffer = stbi_load(filePath.c_str(), &width, &height, &bpp, 4);
+   if (localBuffer)
+   {
       GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,
                           GL_UNSIGNED_BYTE, localBuffer));
       GLCall(glGenerateMipmap(GL_TEXTURE_2D));
       unbind();
-      stbi_image_free(localBuffer);
-   }else{
+   }
+   else
+   {
       std::cout << "\nError: Failed to load texture" << std::endl;
       std::cout << stbi_failure_reason() << std::endl;
       __debugbreak();
    }
+   stbi_image_free(localBuffer);
 
 }
 

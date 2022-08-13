@@ -40,15 +40,15 @@ int main(void) {
       /////////////////////////// SETUP //////////////////////
 
       float positions[] = {
-         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-         0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
-         -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
+         0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
+         0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
+         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
+         -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left
       };
 
       unsigned int indices[] = {
-         0, 1, 2,
-         2, 3, 0
+         0, 1, 3,
+         1, 2, 3
       };
 
       glEnable(GL_TEXTURE_2D);
@@ -89,7 +89,7 @@ int main(void) {
          glfwPollEvents();
 
          renderer.clear();
-
+         texture.bind();
          shader.bind();
 
          float timeValue = glfwGetTime();
