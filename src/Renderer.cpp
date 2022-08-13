@@ -25,3 +25,19 @@ bool GLLogCall(const char* function, const char* file, int line){
    }
    return true;
 }
+
+void Renderer::draw(const VertexArray &va, const IndexBuffer &ib,
+                    Shader &shader) {
+   shader.bind();
+   va.bind();
+   ib.bind();
+   GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+   ib.unbind();
+   va.unbind();
+   shader.unbind();
+}
+
+void Renderer::clear() {
+   GLCall(glClear(GL_COLOR_BUFFER_BIT));
+}

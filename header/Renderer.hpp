@@ -14,6 +14,9 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define GAMEENGINE_RENDERER_HPP
 
 #include <GL/glew.h>
+#include "IndexBuffer.hpp"
+#include "VertexArray.hpp"
+#include "Shader.hpp"
 
 #define ASSERT(x) if (!(x)) __debugbreak()
 #define GLCall(x) GLClearError(); \
@@ -23,5 +26,12 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 void GLClearError();
 
 bool GLLogCall(const char *function, const char *file, int line);
+
+class Renderer{
+public:
+   void draw(const VertexArray& ca, const IndexBuffer& ib, Shader& shader);
+   void clear();
+private:
+};
 
 #endif //GAMEENGINE_RENDERER_HPP

@@ -7,6 +7,7 @@
 #include <Shader.hpp>
 #include <VertexArray.hpp>
 #include <cmath>
+#include <Texture.hpp>
 
 
 int main(void) {
@@ -39,10 +40,10 @@ int main(void) {
       /////////////////////////// SETUP //////////////////////
 
       float positions[] = {
-         -0.5f, -0.5f, 0.0f,
-         0.5f, -0.5f, 0.0f,
-         0.5f, 0.5f, 0.0f,
-         -0.5f, 0.5f, 0.0f
+         -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+         -0.5f, 0.5f, 0.0f, 0.0f, 1.0f
       };
 
       unsigned int indices[] = {
@@ -50,11 +51,18 @@ int main(void) {
          2, 3, 0
       };
 
+      glEnable(GL_TEXTURE_2D);
+      GLCall(glEnable(GL_BLEND));
+      GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
       VertexArray va;
-      VertexBuffer vb(positions, 3 * 4 * sizeof(float));
+      VertexBuffer vb(positions, 5 * 4 * sizeof(float));
       VertexBufferLayout layout;
+      Texture texture("B:\\Users\\lucac\\Documents\\GitHub\\GameEngine\\res"
+                      "\\texture\\texture.png");
 
       layout.push<float>(3);
+      layout.push<float>(2);
       va.addBuffer(vb, layout);
 
       IndexBuffer ib(indices, 6);
@@ -63,17 +71,24 @@ int main(void) {
          R"(B:\Users\lucac\Documents\GitHub\GameEngine\res\shaders\vertex.glsl)",
          R"(B:\Users\lucac\Documents\GitHub\GameEngine\res\shaders\fragment.glsl)");
 
+      shader.bind();
+      texture.bind();
+      shader.setInt("ourText", 0);
+
       VertexArray::unbind();
       Shader::unbind();
       VertexBuffer::unbind();
       IndexBuffer::unbind();
+
+      Renderer renderer;
 
       ////////////////////////////////////////////////////////
 
       /* Loop until the user closes the window */
       while (!glfwWindowShouldClose(window)) {
          glfwPollEvents();
-         GLCall(glClear(GL_COLOR_BUFFER_BIT));
+
+         renderer.clear();
 
          shader.bind();
 
@@ -81,10 +96,7 @@ int main(void) {
          float greenValue = sin(timeValue) / 2.0f + 0.5f;
          shader.setFloat("ourColor", greenValue);
 
-         va.bind();
-         ib.bind();
-
-         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+         renderer.draw(va, ib, shader);
 
          glfwSwapBuffers(window);
       }

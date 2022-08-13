@@ -12,10 +12,12 @@ add_subdirectory(lib/glew EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glm EXCLUDE_FROM_ALL)
 
 add_executable(App
+        src/vendor/stb_image/stb_image.cpp
+        header/vendor/stb_image/stb_image.h
         src/Application.cpp
         src/Shader.cpp
         header/Shader.hpp
-        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp)
+        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp src/Texture.cpp header/Texture.hpp)
 
 
 target_link_libraries(App
