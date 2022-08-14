@@ -19,9 +19,76 @@
 const int screenWidth = 800;
 const int screenHeight = 600;
 
+
+Camera cam(glm::vec3(0.0f, 0.0f, 0.0f));
+float lastX = screenWidth / 2.0f;
+float lastY = screenHeight / 2.0f;
+bool firstMouse = true;
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
    glViewport(0, 0, width, height);
 }
+
+void processKeys(GLFWwindow *window, float deltaTime){
+   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+      glfwSetWindowShouldClose(window, true);
+
+   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+      cam.processKeyboard(FORWARD, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+      cam.processKeyboard(BACKWARD, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+      cam.processKeyboard(LEFT, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+      cam.processKeyboard(RIGHT, deltaTime);
+}
+
+// glfw: whenever the mouse moves, this callback is called
+// -------------------------------------------------------
+void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+{
+   float xpos = static_cast<float>(xposIn);
+   float ypos = static_cast<float>(yposIn);
+
+   if (firstMouse)
+   {
+      lastX = xpos;
+      lastY = ypos;
+      firstMouse = false;
+   }
+
+   float xoffset = xpos - lastX;
+   float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+   lastX = xpos;
+   lastY = ypos;
+
+   cam.processMouseMovement(xoffset, yoffset);
+}
+
+// glfw: whenever the mouse scroll wheel scrolls, this callback is called
+// ----------------------------------------------------------------------
+void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
+{
+   cam.processMouseScroll(static_cast<float>(yOffset));
+}
+
+void imGuiInit(GLFWwindow *window){
+   ImGui::CreateContext();
+   ImGui::StyleColorsDark();
+   ImGui_ImplGlfwGL3_Init(window, true);
+}
+
+void imGuiDraw(float *translationValues, float *rotationsValues) {
+   ImGui::Text("Camera controls");
+   ImGui::SliderFloat3("translation", translationValues, -10.0f, 10.0f);
+   ImGui::SliderFloat3("rotation", rotationsValues, 0.0f, 360.0f);
+   ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+               1000.0f / ImGui::GetIO().Framerate,
+               ImGui::GetIO().Framerate);
+   ImGui::Render();
+}
+
 
 int main(void) {
    GLFWwindow *window;
@@ -45,7 +112,10 @@ int main(void) {
       std::cerr << "Error glewInit" << std::endl;
       return 0;
    }
+   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+   glfwSetCursorPosCallback(window, mouse_callback);
+   glfwSetScrollCallback(window, scroll_callback);
    std::cout << glGetString(GL_VERSION) << std::endl;
 
 
@@ -53,47 +123,47 @@ int main(void) {
       /////////////////////////// SETUP //////////////////////
 
       const float positions[] = {
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+         -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+         -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
       };
 
       const unsigned int indices[] = {
@@ -117,8 +187,21 @@ int main(void) {
          6, 7, 3
       };
 
-      glEnable(GL_DEPTH_TEST);
-      glEnable(GL_TEXTURE_2D);
+      glm::vec3 cubePositions[] = {
+         glm::vec3(0.0f, 0.0f, 0.0f),
+         glm::vec3(2.0f, 5.0f, -15.0f),
+         glm::vec3(-1.5f, -2.2f, -2.5f),
+         glm::vec3(-3.8f, -2.0f, -12.3f),
+         glm::vec3(2.4f, -0.4f, -3.5f),
+         glm::vec3(-1.7f, 3.0f, -7.5f),
+         glm::vec3(1.3f, -2.0f, -2.5f),
+         glm::vec3(1.5f, 2.0f, -2.5f),
+         glm::vec3(1.5f, 0.2f, -1.5f),
+         glm::vec3(-1.3f, 1.0f, -1.5f)
+      };
+
+      GLCall(glEnable(GL_DEPTH_TEST));
+      GLCall(glEnable(GL_TEXTURE_2D));
       GLCall(glEnable(GL_BLEND));
       GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
@@ -134,10 +217,8 @@ int main(void) {
 
       IndexBuffer ib(indices, 36);
 
-      glm::mat4 projection = glm::perspective(glm::radians(45.0f),
-                                    (float) screenWidth / (float) screenHeight,
-                                    0.1f, 100.0f);
-      Camera cam(projection);
+
+
 
 
       float translationValues[3] = {0, 0, -3.0f};
@@ -150,7 +231,6 @@ int main(void) {
       shader.bind();
       texture.bind();
       shader.setInt("ourText", 0);
-      cam.init(shader);
 
 
       VertexArray::unbind();
@@ -160,30 +240,23 @@ int main(void) {
 
       Renderer renderer;
 
-      ImGui::CreateContext();
-      ImGui::StyleColorsDark();
-      ImGui_ImplGlfwGL3_Init(window, true);
-
-      bool show_demo_window = true;
-      bool show_another_window = false;
-      ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-
+//      imGuiInit(window);
 
       ////////////////////////////////////////////////////////
+
+      // timing
+      float deltaTime = 0.0f;	// time between current frame and last frame
+      float lastFrame = 0.0f;
 
       /* Loop until the user closes the window */
       while (!glfwWindowShouldClose(window)) {
          glfwPollEvents();
-         ImGui_ImplGlfwGL3_NewFrame();
+         float currentFrame = static_cast<float>(glfwGetTime());
+         deltaTime = currentFrame - lastFrame;
+         lastFrame = currentFrame;
+         processKeys(window, deltaTime);
 
-         glm::mat4 model = glm::mat4(1.0f);
-         model = glm::rotate(model, glm::radians(-55.0f),
-                             glm::vec3(1.0f, 0.0f, 0.0f));
-
-//         glm::mat4 view = glm::mat4(1.0f);
-//         view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-
+//         ImGui_ImplGlfwGL3_NewFrame();
 
          renderer.clear();
          texture.bind();
@@ -192,30 +265,21 @@ int main(void) {
          float timeValue = glfwGetTime();
          float greenValue = sin(timeValue) / 2.0f + 0.5f;
          shader.setFloat("ourColor", greenValue);
-         shader.setMat4f("u_model", model);
 
-         cam.setXTranslation(translationValues[0]);
-         cam.setYTranslation(translationValues[1]);
-         cam.setZTranslation(translationValues[2]);
-         cam.setXRotation(rotationsValues[0]);
-         cam.setYRotation(rotationsValues[1]);
-         cam.setZRotation(rotationsValues[2]);
          cam.onUpdate(shader);
 
-         //renderer.draw(va, ib, shader);
-         renderer.draw(va, shader);
-
-         {
-            ImGui::Text("Camera controls");
-            ImGui::SliderFloat3("translation", translationValues, -10.0f, 10.0f);
-            ImGui::SliderFloat3("rotation", rotationsValues, 0.0f, 360.0f);
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                        1000.0f / ImGui::GetIO().Framerate,
-                        ImGui::GetIO().Framerate);
+         for (unsigned int i = 0; i < 10; i++) {
+            auto model = glm::mat4(1.0f);
+            model = glm::translate(model, cubePositions[i]);
+            float angle = 20.0f * static_cast<float>(i);
+            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            shader.setMat4f("u_model", model);
+            renderer.draw(va, shader, 36);
          }
 
 
-         ImGui::Render();
+//         imGuiDraw(translationValues, rotationsValues);
+
 
          glfwSwapBuffers(window);
       }

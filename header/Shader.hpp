@@ -53,7 +53,7 @@ public:
 private:
    [[nodiscard]] int getUniformLocation(const std::string &name);
    static void checkCompileErrors(unsigned int shader, const std::string &type);
-   std::unordered_map<const char*, int> uniformLocationCache;
+   std::unordered_map<std::string, int> uniformLocationCache;
 
 };
 

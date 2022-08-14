@@ -134,27 +134,22 @@ void Shader::unbind() {
 
 int Shader::getUniformLocation(const std::string &name) {
 
-//   try{
-//      return uniformLocationCache.at(name.c_str());
-//   }catch (const std::out_of_range& e){
-//      std::cout << "UniformLocation '" << name << "' not found in cache, getting "
-//                                                 "from GPU..." <<
-//      std::endl;
-//   }
+   if (uniformLocationCache.find(name) != uniformLocationCache.end())
+      return uniformLocationCache[name];
 
-   GLCall(int location = glGetUniformLocation(ID, name.c_str()));
-   if(location == -1){
-      std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
-   }
-   uniformLocationCache[name.c_str()] = location;
+   GLCall( int location = glGetUniformLocation(ID, name.c_str()) );
+   if (location == -1)
+      std::cout << "No active uniform variable with name " << name << " found" << std::endl;
+
+   uniformLocationCache[name] = location;
 
    return location;
 
 }
 
 void Shader::setMat4f(const std::string &name, const glm::mat4& value) {
-   GLCall(glUniformMatrix4fv(getUniformLocation(name.c_str()), 1, GL_FALSE,
-                         &value[0][0]));
+   GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
+                         glm::value_ptr(value)));
 }
 
 

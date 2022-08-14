@@ -17,45 +17,64 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <glm/gtc/matrix_transform.hpp>
 #include <Shader.hpp>
 
+
+
+enum CameraMovement {
+   FORWARD,
+   BACKWARD,
+   LEFT,
+   RIGHT
+};
+
 class Camera {
 public:
-   explicit Camera(const glm::mat4& projection);
-   void onUpdate(Shader& shader) const;
-   void init(Shader& shader) const;
+   explicit Camera(glm::vec3 position);
 
-   void setXRotation(float x);
-   void setYRotation(float y);
-   void setZRotation(float z);
+   void onUpdate(Shader &shader) const;
 
-   void setXTranslation(float x);
-   void setYTranslation(float y);
-   void setZTranslation(float z);
+   void init(Shader &shader) const;
+
+   void processKeyboard(CameraMovement direction, float deltaTime);
+
+   void processMouseScroll(float yoffset);
+
+   glm::mat4 getViewMatrix() const;
+
+   void processMouseMovement(float xoffset, float yoffset, GLboolean
+   constrainPitch = true);
 
 private:
-   glm::mat4 projection;
+   void updateCameraVectors();
 
-   float xRotation = 0;
-   float yRotation = 0;
+   // camera Attributes
+   glm::vec3 position;
+   glm::vec3 front;
+   glm::vec3 up;
+   glm::vec3 right;
+   glm::vec3 worldUp;
+   // euler Angles
+   float yaw;
+   float pitch;
+   // camera options
+   float movementSpeed;
+   float mouseSensitivity;
+   float zoom;
 public:
-   float getXRotation() const;
-
-   float getYRotation() const;
-
-   float getZRotation() const;
-
-   float getXTranslation() const;
-
-   float getYTranslation() const;
-
-   float getZTranslation() const;
+   float getZoom() const;
 
 private:
-   float zRotation = 0;
+   float speed = 1.0f;
 
-   float xTranslation = 0;
-   float yTranslation = 0;
-   float zTranslation = 0;
+   static const float YAW;
+   static const float PITCH;
+   static const float SPEED;
+   static const float SENSITIVITY;
+   static const float ZOOM;
+
 };
+
+
+
 
 
 #endif //GAMEENGINE_CAMERA_HPP

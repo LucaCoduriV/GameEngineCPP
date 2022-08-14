@@ -43,12 +43,9 @@ void Renderer::clear() {
    GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
-void Renderer::draw(const VertexArray &va, Shader &shader) {
+void Renderer::draw(const VertexArray &va, Shader &shader, int count) {
    shader.bind();
    va.bind();
 
-   glDrawArrays(GL_TRIANGLES, 0, 36);
-
-   va.unbind();
-   shader.unbind();
+   glDrawArrays(GL_TRIANGLES, 0, count);
 }
