@@ -15,6 +15,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <sstream>
 #include <iostream>
 #include "Renderer.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath) {
@@ -133,13 +134,13 @@ void Shader::unbind() {
 
 int Shader::getUniformLocation(const std::string &name) {
 
-   try{
-      return uniformLocationCache.at(name.c_str());
-   }catch (const std::out_of_range& e){
-      std::cout << "UniformLocation '" << name << "' not found in cache, getting "
-                                                 "from GPU..." <<
-      std::endl;
-   }
+//   try{
+//      return uniformLocationCache.at(name.c_str());
+//   }catch (const std::out_of_range& e){
+//      std::cout << "UniformLocation '" << name << "' not found in cache, getting "
+//                                                 "from GPU..." <<
+//      std::endl;
+//   }
 
    GLCall(int location = glGetUniformLocation(ID, name.c_str()));
    if(location == -1){

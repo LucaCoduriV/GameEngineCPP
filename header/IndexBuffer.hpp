@@ -21,6 +21,9 @@ public:
 
    void bind() const;
    static void unbind();
+
+   [[nodiscard]] unsigned int getCount() const;
+
 private:
    unsigned int rendererID = 0;
    unsigned int count;
