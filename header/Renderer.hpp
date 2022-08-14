@@ -29,7 +29,8 @@ bool GLLogCall(const char *function, const char *file, int line);
 
 class Renderer{
 public:
-   void draw(const VertexArray& ca, const IndexBuffer& ib, Shader& shader);
+   void draw(const VertexArray& va, const IndexBuffer& ib, Shader& shader);
+   void draw(const VertexArray& va, Shader& shader);
    void clear();
 private:
 };

@@ -79,3 +79,7 @@ float Camera::getYTranslation() const {
 float Camera::getZTranslation() const {
    return zTranslation;
 }
+
+void Camera::init(Shader &shader) const {
+   shader.setMat4f("u_proj", projection);
+}

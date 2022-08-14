@@ -7,6 +7,6 @@ in vec2 v_textCoord;
 
 void main()
 {
-//    FragColor = vec4(1.0f, ourColor, 0.2f, 1.0f);
+//    color = vec4(1.0f, ourColor, 0.2f, 1.0f);
     color = texture(ourText, v_textCoord) * vec4(1.0f, ourColor, 1.0f, 1.0f);
 }

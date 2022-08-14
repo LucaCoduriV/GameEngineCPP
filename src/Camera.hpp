@@ -21,6 +21,7 @@ class Camera {
 public:
    explicit Camera(const glm::mat4& projection);
    void onUpdate(Shader& shader) const;
+   void init(Shader& shader) const;
 
    void setXRotation(float x);
    void setYRotation(float y);

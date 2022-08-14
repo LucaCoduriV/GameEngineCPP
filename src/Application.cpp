@@ -53,24 +53,77 @@ int main(void) {
       /////////////////////////// SETUP //////////////////////
 
       const float positions[] = {
-         // positions          // texture coords
-         0.5f,  0.5f, 0.0f,   1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,   1.0f, 0.0f, // bottom right
-         -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, // bottom left
-         -0.5f,  0.5f, 0.0f,   0.0f, 1.0f  // top left
+         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
       };
 
       const unsigned int indices[] = {
-         0, 1, 3,
-         1, 2, 3
+         // front
+         0, 1, 2,
+         2, 3, 0,
+         // right
+         1, 5, 6,
+         6, 2, 1,
+         // back
+         7, 6, 5,
+         5, 4, 7,
+         // left
+         4, 0, 3,
+         3, 7, 4,
+         // bottom
+         4, 5, 1,
+         1, 0, 4,
+         // top
+         3, 2, 6,
+         6, 7, 3
       };
 
+      glEnable(GL_DEPTH_TEST);
       glEnable(GL_TEXTURE_2D);
       GLCall(glEnable(GL_BLEND));
       GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
       VertexArray va;
-      VertexBuffer vb(positions, 5 * 4 * sizeof(float));
+      VertexBuffer vb(positions, sizeof(positions));
       VertexBufferLayout layout;
       Texture texture("B:\\Users\\lucac\\Documents\\GitHub\\GameEngine\\res"
                       "\\texture\\texture.png");
@@ -79,14 +132,16 @@ int main(void) {
       layout.push<float>(2);
       va.addBuffer(vb, layout);
 
-      IndexBuffer ib(indices, 6);
+      IndexBuffer ib(indices, 36);
 
-      glm::mat4 projection = glm::mat4(1.0f);
-      projection = glm::perspective(glm::radians(45.0f),
+      glm::mat4 projection = glm::perspective(glm::radians(45.0f),
                                     (float) screenWidth / (float) screenHeight,
                                     0.1f, 100.0f);
       Camera cam(projection);
 
+
+      float translationValues[3] = {0, 0, -3.0f};
+      float rotationsValues[3] = {0, 0, 0};
 
       Shader shader(
          R"(B:\Users\lucac\Documents\GitHub\GameEngine\res\shaders\vertex.glsl)",
@@ -95,7 +150,7 @@ int main(void) {
       shader.bind();
       texture.bind();
       shader.setInt("ourText", 0);
-      shader.setMat4f("u_proj", projection);
+      cam.init(shader);
 
 
       VertexArray::unbind();
@@ -138,37 +193,25 @@ int main(void) {
          float greenValue = sin(timeValue) / 2.0f + 0.5f;
          shader.setFloat("ourColor", greenValue);
          shader.setMat4f("u_model", model);
-         cam.setZTranslation(-3.0f);
+
+         cam.setXTranslation(translationValues[0]);
+         cam.setYTranslation(translationValues[1]);
+         cam.setZTranslation(translationValues[2]);
+         cam.setXRotation(rotationsValues[0]);
+         cam.setYRotation(rotationsValues[1]);
+         cam.setZRotation(rotationsValues[2]);
          cam.onUpdate(shader);
 
-         renderer.draw(va, ib, shader);
+         //renderer.draw(va, ib, shader);
+         renderer.draw(va, shader);
 
          {
-            static float f = 0.0f;
-            ImGui::Text(
-               "Hello, world!");                           // Some text (you can use a format string too)
-            ImGui::SliderFloat("float", &f, 0.0f,
-                               1.0f);            // Edit 1 float as a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color",
-                              (float *) &clear_color); // Edit 3 floats as a color
-            if (ImGui::Button(
-               "Demo Window"))                       // Use buttons to toggle our bools. We could use Checkbox() as well.
-               show_demo_window ^= 1;
-            if (ImGui::Button("Another Window"))
-               show_another_window ^= 1;
+            ImGui::Text("Camera controls");
+            ImGui::SliderFloat3("translation", translationValues, -10.0f, 10.0f);
+            ImGui::SliderFloat3("rotation", rotationsValues, 0.0f, 360.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                         1000.0f / ImGui::GetIO().Framerate,
                         ImGui::GetIO().Framerate);
-         }
-         if (show_another_window) {
-            ImGui::Begin("Another Window", &show_another_window);
-            ImGui::Text("Hello from another window!");
-            ImGui::End();
-         }
-         if (show_demo_window) {
-            ImGui::SetNextWindowPos(ImVec2(650, 20),
-                                    ImGuiCond_FirstUseEver); // Normally user code doesn't need/want to call this because positions are saved in .ini file anyway. Here we just want to make the demo initial state a bit more friendly!
-            ImGui::ShowDemoWindow(&show_demo_window);
          }
 
 
