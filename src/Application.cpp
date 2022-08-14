@@ -25,6 +25,9 @@ float lastX = screenWidth / 2.0f;
 float lastY = screenHeight / 2.0f;
 bool firstMouse = true;
 
+bool escapePressed = false;
+bool enableIamGui = false;
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
    glViewport(0, 0, width, height);
 }
@@ -34,13 +37,21 @@ void processKeys(GLFWwindow *window, float deltaTime){
       glfwSetWindowShouldClose(window, true);
 
    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-      cam.processKeyboard(FORWARD, deltaTime);
+      cam.processKeyboard(CameraMovement::FORWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-      cam.processKeyboard(BACKWARD, deltaTime);
+      cam.processKeyboard(CameraMovement::BACKWARD, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-      cam.processKeyboard(LEFT, deltaTime);
+      cam.processKeyboard(CameraMovement::LEFT, deltaTime);
    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-      cam.processKeyboard(RIGHT, deltaTime);
+      cam.processKeyboard(CameraMovement::RIGHT, deltaTime);
+   if (glfwGetKey(window, GLFW_KEY_INSERT) == GLFW_PRESS)
+      escapePressed = true;
+   if (escapePressed && glfwGetKey(window, GLFW_KEY_INSERT) == GLFW_RELEASE){
+      escapePressed = false;
+      enableIamGui = !enableIamGui;
+      glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+   }
+
 }
 
 // glfw: whenever the mouse moves, this callback is called
@@ -112,6 +123,7 @@ int main(void) {
       std::cerr << "Error glewInit" << std::endl;
       return 0;
    }
+
    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
    glfwSetCursorPosCallback(window, mouse_callback);
@@ -240,7 +252,8 @@ int main(void) {
 
       Renderer renderer;
 
-//      imGuiInit(window);
+      imGuiInit(window);
+      auto& io = ImGui::GetIO();
 
       ////////////////////////////////////////////////////////
 
@@ -256,7 +269,7 @@ int main(void) {
          lastFrame = currentFrame;
          processKeys(window, deltaTime);
 
-//         ImGui_ImplGlfwGL3_NewFrame();
+
 
          renderer.clear();
          texture.bind();
@@ -276,9 +289,11 @@ int main(void) {
             shader.setMat4f("u_model", model);
             renderer.draw(va, shader, 36);
          }
+         if(enableIamGui){
+            ImGui_ImplGlfwGL3_NewFrame();
+            imGuiDraw(translationValues, rotationsValues);
+         }
 
-
-//         imGuiDraw(translationValues, rotationsValues);
 
 
          glfwSwapBuffers(window);

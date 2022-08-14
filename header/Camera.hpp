@@ -19,7 +19,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 
 
-enum CameraMovement {
+enum class CameraMovement {
    FORWARD,
    BACKWARD,
    LEFT,

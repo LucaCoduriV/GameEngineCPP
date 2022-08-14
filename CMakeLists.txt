@@ -22,7 +22,7 @@ add_executable(App
         src/Application.cpp
         src/Shader.cpp
         header/Shader.hpp
-        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp src/Texture.cpp header/Texture.hpp src/Camera.cpp src/Camera.hpp)
+        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp src/Texture.cpp header/Texture.hpp src/Camera.cpp header/Camera.hpp)
 
 
 target_link_libraries(App
