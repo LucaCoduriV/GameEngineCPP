@@ -17,7 +17,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 class Texture {
 public:
-   explicit Texture(std::string path);
+   explicit Texture(std::filesystem::path path);
 
    ~Texture();
 
@@ -26,7 +26,7 @@ public:
 
 private:
    unsigned int rendererID = 0;
-   std::string filePath;
+   std::filesystem::path filePath;
    unsigned char* localBuffer = nullptr;
    int width = 0;
    int height = 0;

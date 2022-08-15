@@ -18,7 +18,8 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <glm/gtc/type_ptr.hpp>
 
 
-Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath) {
+Shader::Shader(const std::filesystem::path& vertexPath, const
+std::filesystem::path& fragmentPath) {
 // 1. retrieve the vertex/fragment source code from filePath
    std::string vertexCode;
    std::string fragmentCode;

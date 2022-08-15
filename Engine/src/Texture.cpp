@@ -14,8 +14,9 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "Texture.hpp"
 #include "vendor/stb_image/stb_image.h"
 #include <iostream>
+#include <utility>
 
-Texture::Texture(std::string path) : filePath(move(path)) {
+Texture::Texture(std::filesystem::path path) : filePath(std::move(path)) {
    stbi_set_flip_vertically_on_load(1);
 
    GLCall(glGenTextures(1, &rendererID));
@@ -27,7 +28,7 @@ Texture::Texture(std::string path) : filePath(move(path)) {
    GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 
-   localBuffer = stbi_load(filePath.c_str(), &width, &height, &bpp, 4);
+   localBuffer = stbi_load(filePath.string().c_str(), &width, &height, &bpp, 4);
    if (localBuffer)
    {
       GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,

@@ -10,6 +10,7 @@
 #include <Events/EventDispatcher.hpp>
 #include <Events/MouseEvent.hpp>
 #include <functional>
+#include <filesystem>
 
 /*
 -----------------------------------------------------------------------------------
@@ -81,7 +82,7 @@ void TestLayer::onAttach() {
    va = std::make_shared<VertexArray>();
    vb = std::make_shared<VertexBuffer>(positions, sizeof(positions));
    layout = std::make_shared<VertexBufferLayout>();
-   texture = std::make_shared<Texture>(R"(res\texture\texture.png)");
+   texture = std::make_shared<Texture>("res/texture/texture.png");
 
    layout->push<float>(3);
    layout->push<float>(2);
@@ -111,9 +112,10 @@ void TestLayer::onAttach() {
    IndexBuffer ib(indices, 36);
 
 
+
    shader = std::make_shared<Shader>(
-      R"(res\shaders\vertex.glsl)",
-      R"(res\shaders\fragment.glsl)");
+      "res/shaders/vertex.glsl",
+      "res/shaders/fragment.glsl");
 
    shader->bind();
    texture->bind();

@@ -17,6 +17,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <unordered_map>
 #include "GL/glew.h"
 #include <glm/glm.hpp>
+#include <filesystem>
 
 
 class Shader {
@@ -25,7 +26,8 @@ public:
    unsigned int ID;
 
    // le constructeur lit et construit le shader
-   Shader(const GLchar *vertexPath, const GLchar *fragmentPath);
+   Shader(const std::filesystem::path& vertexPath, const std::filesystem::path&
+   fragmentPath);
 
    // Activation du shader
    void bind();
