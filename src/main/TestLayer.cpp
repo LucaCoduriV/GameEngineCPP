@@ -138,6 +138,7 @@ void TestLayer::onEvent(Event &event) {
    EventDispatcher dispatcher(event);
    dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(TestLayer::onMouseMove));
    dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(TestLayer::onKeyPressed));
+   dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(TestLayer::onScroll));
 }
 
 void TestLayer::onImGuiRender() {
@@ -207,5 +208,10 @@ bool TestLayer::onKeyPressed(KeyPressedEvent &event) {
    if (event.GetKeyCode() == (KeyCode)Key::D)
       cam.processKeyboard(CameraMovement::RIGHT, deltaTime);
 
+   return true;
+}
+
+bool TestLayer::onScroll(MouseScrolledEvent &event) {
+   cam.processMouseScroll(static_cast<float>(event.GetYOffset()));
    return true;
 }

@@ -20,6 +20,12 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <memory>
 #include <Events/MouseEvent.hpp>
 #include <Events/KeyEvent.hpp>
+#include "VertexArray.hpp"
+#include "VertexBuffer.hpp"
+#include "VertexBufferLayout.hpp"
+#include "Texture.hpp"
+#include "Shader.hpp"
+#include "Renderer.hpp"
 
 class TestLayer : public Layer {
 public:
@@ -32,6 +38,7 @@ public:
    void onUpdate(float timeStamp) override;
    bool onMouseMove(MouseMovedEvent& event);
    bool onKeyPressed(KeyPressedEvent& event);
+   bool onScroll(MouseScrolledEvent& event);
 private:
    std::shared_ptr<VertexArray> va;
    std::shared_ptr<VertexBuffer> vb;
