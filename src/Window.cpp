@@ -12,6 +12,9 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <stdexcept>
 #include <iostream>
+#include <Events/MouseEvent.hpp>
+#include <Events/ApplicationEvent.hpp>
+#include <Events/KeyEvent.hpp>
 #include "Window.hpp"
 
 static void GLFWErrorCallback(int error, const char* description)
@@ -29,6 +32,10 @@ unsigned int Window::getWidth() const {
 
 Window::Window(std::string title, unsigned int height, unsigned int width) : height
 (height), width(width), title(move(title)) {
+   data.title = title;
+   data.height = height;
+   data.width = width;
+
 /* Initialize the library */
    if (!glfwInit())
       throw std::runtime_error("Error on glfw init.");
@@ -51,31 +58,104 @@ Window::Window(std::string title, unsigned int height, unsigned int width) : hei
    std::cout << "Window successfully created. Running on OpenGL version : "
              << glGetString(GL_VERSION) << std::endl;
 
-   glfwSetErrorCallback(GLFWErrorCallback);
+   glfwSetWindowUserPointer(window, &data);
+
    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
-   glfwSetCursorPosCallback(window, [](GLFWwindow *window, double xPosIn, double
-   yPosIn){
+   glfwSetErrorCallback(GLFWErrorCallback);
 
+   glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height)
+   {
+      glViewport(0, 0, width, height);
+      WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(window);
+      _data.width = static_cast<unsigned int>(width);
+      _data.height = static_cast<unsigned int>(height);
+
+      WindowResizeEvent event(static_cast<unsigned int>(width),
+                              static_cast<unsigned int>(height));
+      _data.eventCallback(event);
    });
-   glfwSetScrollCallback(window, scrollCallback);
 
-}
+   glfwSetCursorPosCallback(window, [](GLFWwindow *_window, double xPosIn, double
+   yPosIn){
+      const WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
+      MouseMovedEvent event((float)xPosIn, (float)yPosIn);
+      _data.eventCallback(event);
+   });
 
-void Window::mouseCallback(GLFWwindow *window, double xPosIn, double yPosIn) {
+   glfwSetWindowCloseCallback(window, [](GLFWwindow* _window)
+   {
+      const WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
+      WindowCloseEvent event;
+      _data.eventCallback(event);
+   });
 
-}
+   glfwSetMouseButtonCallback(window, [](GLFWwindow* _window, int button, int
+   action, int mods)
+   {
+      const WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
 
-void Window::scrollCallback(GLFWwindow *window, double xOffset, double yOffset) {
+      switch (action)
+      {
+         case GLFW_PRESS:
+         {
+            MouseButtonPressedEvent event((MouseCode)button);
+            _data.eventCallback(event);
+            break;
+         }
+         case GLFW_RELEASE:
+         {
+            MouseButtonReleasedEvent event((MouseCode)button);
+            _data.eventCallback(event);
+            break;
+         }
+      }
+   });
 
-}
+   glfwSetScrollCallback(window, [](GLFWwindow* _window, double xOffset, double
+   yOffset)
+   {
+      const WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
 
-void Window::keyboardCallback(GLFWwindow *window, float deltaTime) {
+      MouseScrolledEvent event((float)xOffset, (float)yOffset);
+      _data.eventCallback(event);
+   });
 
-}
+   glfwSetKeyCallback(window, [](GLFWwindow* _window, int key, int scancode, int
+   action, int mods)
+   {
+      const WindowData& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
 
-void Window::framebufferSizeCallback(GLFWwindow *window, int width, int height) {
-   glViewport(0, 0, width, height);
+      switch (action)
+      {
+         case GLFW_PRESS:
+         {
+            KeyPressedEvent event((KeyCode)key);
+            _data.eventCallback(event);
+            break;
+         }
+         case GLFW_RELEASE:
+         {
+            KeyReleasedEvent event((KeyCode)key);
+            _data.eventCallback(event);
+            break;
+         }
+         case GLFW_REPEAT:
+         {
+            KeyPressedEvent event((KeyCode)key, true);
+            _data.eventCallback(event);
+            break;
+         }
+      }
+   });
+
+   glfwSetCharCallback(window, [](GLFWwindow* _window, unsigned int keycode)
+   {
+      WindowData const& _data = *(WindowData*)glfwGetWindowUserPointer(_window);
+
+      KeyTypedEvent event((KeyCode)keycode);
+      _data.eventCallback(event);
+   });
+
 }
 
 void Window::onUpdate() {
@@ -83,5 +163,9 @@ void Window::onUpdate() {
 }
 
 void Window::SetEventCallback(const Window::EventCallbackFn &callback) {
-   eventCallback = callback;
+   data.eventCallback = callback;
+}
+
+GLFWwindow* Window::getWindowHandler() const {
+   return window;
 }

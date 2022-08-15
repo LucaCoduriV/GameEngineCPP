@@ -29,19 +29,25 @@ public:
 
    void onUpdate();
    void SetEventCallback(const EventCallbackFn& callback);
-
+   [[nodiscard]] GLFWwindow* getWindowHandler() const;
 
 private:
    unsigned int height{};
    unsigned int width{};
    std::string title;
    GLFWwindow* window;
-   EventCallbackFn eventCallback;
 
-   static void mouseCallback(GLFWwindow* window, double xPosIn, double yPosIn);
-   static void scrollCallback(GLFWwindow* window, double xOffset, double yOffset);
-   static void keyboardCallback(GLFWwindow *window, float deltaTime);
-   static void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+   struct WindowData
+   {
+      std::string title;
+      unsigned int width;
+      unsigned int height;
+      bool vSync;
+
+      EventCallbackFn eventCallback;
+   };
+
+   WindowData data;
 
 };
 
