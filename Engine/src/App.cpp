@@ -54,7 +54,6 @@ void App::run() {
 }
 
 void App::onEvent(Event &e) {
-   std::cout << e.toString() << std::endl;
 
    EventDispatcher dispatcher(e);
    dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClose));

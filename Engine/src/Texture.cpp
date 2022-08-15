@@ -14,7 +14,6 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "Texture.hpp"
 #include "vendor/stb_image/stb_image.h"
 #include <iostream>
-#include <utility>
 
 Texture::Texture(std::filesystem::path path) : filePath(std::move(path)) {
    stbi_set_flip_vertically_on_load(1);

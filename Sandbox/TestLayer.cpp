@@ -1,3 +1,15 @@
+/*
+-----------------------------------------------------------------------------------
+Nom du fichier  : TestLayer.cpp
+Auteur(s)       : lucac
+Date creation   : 15.08.2022
+Description     : <à compléter>
+Remarque(s)     : <à compléter>
+Compilateur     : Mingw-w64 g++ 8.1.0
+-----------------------------------------------------------------------------------
+
+*/
+
 #include <VertexArray.hpp>
 #include <IndexBuffer.hpp>
 #include <Renderer.hpp>
@@ -11,18 +23,6 @@
 #include <Events/MouseEvent.hpp>
 #include <functional>
 #include <filesystem>
-
-/*
------------------------------------------------------------------------------------
-Nom du fichier  : TestLayer.cpp
-Auteur(s)       : lucac
-Date creation   : 15.08.2022
-Description     : <à compléter>
-Remarque(s)     : <à compléter>
-Compilateur     : Mingw-w64 g++ 8.1.0
------------------------------------------------------------------------------------
-
-*/
 
 TestLayer::TestLayer() : Layer("TestLayer"), cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
 
