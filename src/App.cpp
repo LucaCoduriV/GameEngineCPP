@@ -19,16 +19,17 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Camera.hpp>
 #include <vendor/imgui/imgui.h>
 #include <vendor/imgui/imgui_impl_glfw_gl3.h>
+#include <Events/EventDispatcher.hpp>
 
 
 App::App(): window("Learning OpenGl", 600, 800) {
    window.SetEventCallback(BIND_EVENT_FN(App::onEvent));
-   ImGui::CreateContext();
-   ImGui::StyleColorsDark();
-   ImGui_ImplGlfwGL3_Init(window.getWindowHandler(), true);
+//   ImGui::CreateContext();
+//   ImGui::StyleColorsDark();
+//   ImGui_ImplGlfwGL3_Init(window.getWindowHandler(), true);
 }
 
-[[noreturn]] void App::run() {
+void App::run() {
    std::cout << "Loop running." << std::endl;
    while(running){
       float time = (float)glfwGetTime();
@@ -40,10 +41,10 @@ App::App(): window("Learning OpenGl", 600, 800) {
       }
 
 
-      ImGui_ImplGlfwGL3_NewFrame();
-      for (auto layer : layers){
-         layer->onImGuiRender();
-      }
+//      ImGui_ImplGlfwGL3_NewFrame();
+//      for (auto layer : layers){
+//         layer->onImGuiRender();
+//      }
 
       window.onUpdate();
    }
@@ -51,6 +52,14 @@ App::App(): window("Learning OpenGl", 600, 800) {
 
 void App::onEvent(Event &e) {
    std::cout << e.toString() << std::endl;
+
+   EventDispatcher dispatcher(e);
+   dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(App::onWindowClose));
+   dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(App::onWindowResize));
+
+   for(auto* layer : layers){
+      layer->onEvent(e);
+   }
 }
 
 void App::pushLayer(Layer *layer) {
@@ -66,5 +75,17 @@ App::~App() {
 
 bool App::onWindowClose(WindowCloseEvent &e) {
    running = false;
+   return true;
+}
+
+bool App::onWindowResize(WindowResizeEvent& e){
+
+   if (e.getWidth() == 0 || e.getHeight() == 0)
+   {
+      minimized = true;
+      return false;
+   }
+
+   minimized = false;
    return true;
 }

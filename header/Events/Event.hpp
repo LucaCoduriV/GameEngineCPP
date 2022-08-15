@@ -15,6 +15,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include <string>
 
+#define BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 
 enum class EventType {

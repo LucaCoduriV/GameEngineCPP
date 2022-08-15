@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <vendor/imgui/imgui.h>
+#include <Events/EventDispatcher.hpp>
+#include <Events/MouseEvent.hpp>
 
 /*
 -----------------------------------------------------------------------------------
@@ -132,7 +134,9 @@ void TestLayer::onDetach() {
 }
 
 void TestLayer::onEvent(Event &event) {
-   Layer::onEvent(event);
+   EventDispatcher dispatcher(event);
+   dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(TestLayer::onMouseMove));
+   dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(TestLayer::onKeyPressed));
 }
 
 void TestLayer::onImGuiRender() {
@@ -146,8 +150,6 @@ void TestLayer::onImGuiRender() {
 }
 
 void TestLayer::onUpdate(float timeStamp) {
-
-
    glfwPollEvents();
    float currentFrame = static_cast<float>(glfwGetTime());
    deltaTime = currentFrame - lastFrame;
@@ -171,4 +173,38 @@ void TestLayer::onUpdate(float timeStamp) {
       shader->setMat4f("u_model", model);
       renderer->draw(*va, *shader, 36);
    }
+}
+
+bool TestLayer::onMouseMove(MouseMovedEvent &event) {
+   float xpos = static_cast<float>(event.GetX());
+   float ypos = static_cast<float>(event.GetY());
+
+   if (firstMouse)
+   {
+      lastX = xpos;
+      lastY = ypos;
+      firstMouse = false;
+   }
+
+   float xoffset = xpos - lastX;
+   float yoffset = lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+   lastX = xpos;
+   lastY = ypos;
+
+   cam.processMouseMovement(xoffset, yoffset);
+   return true;
+}
+
+bool TestLayer::onKeyPressed(KeyPressedEvent &event) {
+   if (event.GetKeyCode() == (KeyCode)Key::W)
+      cam.processKeyboard(CameraMovement::FORWARD, deltaTime);
+   if (event.GetKeyCode() == (KeyCode)Key::S)
+      cam.processKeyboard(CameraMovement::BACKWARD, deltaTime);
+   if (event.GetKeyCode() == (KeyCode)Key::A)
+      cam.processKeyboard(CameraMovement::LEFT, deltaTime);
+   if (event.GetKeyCode() == (KeyCode)Key::D)
+      cam.processKeyboard(CameraMovement::RIGHT, deltaTime);
+
+   return true;
 }

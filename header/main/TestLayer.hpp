@@ -18,6 +18,8 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Camera.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
+#include <Events/MouseEvent.hpp>
+#include <Events/KeyEvent.hpp>
 
 class TestLayer : public Layer {
 public:
@@ -28,6 +30,8 @@ public:
    void onEvent(Event &event) override;
    void onImGuiRender() override;
    void onUpdate(float timeStamp) override;
+   bool onMouseMove(MouseMovedEvent& event);
+   bool onKeyPressed(KeyPressedEvent& event);
 private:
    std::shared_ptr<VertexArray> va;
    std::shared_ptr<VertexBuffer> vb;
@@ -55,6 +59,10 @@ private:
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;
+
+   float lastX = 800 / 2.0f;
+   float lastY = 600 / 2.0f;
+   bool firstMouse = true;
 };
 
 
