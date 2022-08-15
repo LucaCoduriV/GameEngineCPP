@@ -23,10 +23,11 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 
 App::App(): window("Learning OpenGl", 600, 800) {
+
+   ImGui::CreateContext();
+   ImGui::StyleColorsDark();
+   ImGui_ImplGlfwGL3_Init(window.getWindowHandler(), false);
    window.SetEventCallback(BIND_EVENT_FN(App::onEvent));
-//   ImGui::CreateContext();
-//   ImGui::StyleColorsDark();
-//   ImGui_ImplGlfwGL3_Init(window.getWindowHandler(), true);
 }
 
 void App::run() {
@@ -41,10 +42,10 @@ void App::run() {
       }
 
 
-//      ImGui_ImplGlfwGL3_NewFrame();
-//      for (auto layer : layers){
-//         layer->onImGuiRender();
-//      }
+      ImGui_ImplGlfwGL3_NewFrame();
+      for (auto layer : layers){
+         layer->onImGuiRender();
+      }
 
       window.onUpdate();
    }

@@ -9,6 +9,7 @@
 #include <vendor/imgui/imgui.h>
 #include <Events/EventDispatcher.hpp>
 #include <Events/MouseEvent.hpp>
+#include <functional>
 
 /*
 -----------------------------------------------------------------------------------
