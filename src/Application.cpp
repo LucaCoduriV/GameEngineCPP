@@ -15,6 +15,7 @@
 #include <Texture.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <App.hpp>
 
 const int screenWidth = 800;
 const int screenHeight = 600;
@@ -100,7 +101,7 @@ void imGuiDraw(float *translationValues, float *rotationsValues) {
    ImGui::Render();
 }
 
-
+#if false
 int main(void) {
    GLFWwindow *window;
 
@@ -304,3 +305,8 @@ int main(void) {
    glfwTerminate();
    return 0;
 }
+#else
+int main(){
+   App app;
+}
+#endif
