@@ -14,7 +14,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define GAMEENGINE_TESTLAYER_HPP
 
 
-#include <Layer.hpp>
+
 #include <Camera.hpp>
 #include <glm/vec3.hpp>
 #include <memory>
@@ -26,6 +26,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "Texture.hpp"
 #include "Shader.hpp"
 #include "Renderer.hpp"
+#include "../Engine/header/Layer.hpp"
 
 class TestLayer : public Layer {
 public:

@@ -17,15 +17,15 @@ file(GLOB files
         "header/vendor/*/*.hpp"
         )
 
-add_executable(App
+add_library(Engine
         ${files}
-        src/main/Application.cpp
         src/Shader.cpp
         header/Shader.hpp
-        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp src/Texture.cpp header/Texture.hpp src/Camera.cpp header/Camera.hpp src/Window.cpp header/Window.hpp src/Events/Event.cpp header/Events/Event.hpp src/Events/ApplicationEvent.cpp header/Events/ApplicationEvent.hpp src/Events/EventDispatcher.cpp header/Events/EventDispatcher.hpp src/Events/MouseEvent.cpp header/Events/MouseEvent.hpp header/MouseCode.hpp src/App.cpp header/App.hpp src/Events/KeyEvent.cpp header/Events/KeyEvent.hpp header/KeyCode.hpp src/Layer.cpp header/Layer.hpp src/main/TestLayer.cpp header/main/TestLayer.hpp)
+        src/Renderer.cpp header/Renderer.hpp src/VertexBuffer.cpp header/VertexBuffer.hpp src/IndexBuffer.cpp header/IndexBuffer.hpp src/VertexArray.cpp header/VertexArray.hpp src/VertexBufferLayout.cpp header/VertexBufferLayout.hpp src/Texture.cpp header/Texture.hpp src/Camera.cpp header/Camera.hpp src/Window.cpp header/Window.hpp src/Events/Event.cpp header/Events/Event.hpp src/Events/ApplicationEvent.cpp header/Events/ApplicationEvent.hpp src/Events/EventDispatcher.cpp header/Events/EventDispatcher.hpp src/Events/MouseEvent.cpp header/Events/MouseEvent.hpp header/MouseCode.hpp src/App.cpp header/App.hpp src/Events/KeyEvent.cpp header/Events/KeyEvent.hpp header/KeyCode.hpp src/Layer.cpp header/Layer.hpp)
 
+target_include_directories(Engine PUBLIC header)
 
-target_link_libraries(App
+target_link_libraries(Engine
         glfw
         libglew_static
         glm
