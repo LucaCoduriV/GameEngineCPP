@@ -38,6 +38,7 @@ public:
    void onUpdate(float timeStamp) override;
    bool onMouseMove(MouseMovedEvent& event);
    bool onKeyPressed(KeyPressedEvent& event);
+   bool onKeyReleased(KeyReleasedEvent& event);
    bool onScroll(MouseScrolledEvent& event);
 private:
    std::shared_ptr<VertexArray> va;
@@ -70,6 +71,11 @@ private:
    float lastX = 800 / 2.0f;
    float lastY = 600 / 2.0f;
    bool firstMouse = true;
+
+   bool forward = false;
+   bool backward = false;
+   bool right = false;
+   bool left = false;
 };
 
 

@@ -138,6 +138,7 @@ void TestLayer::onEvent(Event &event) {
    EventDispatcher dispatcher(event);
    dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(TestLayer::onMouseMove));
    dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(TestLayer::onKeyPressed));
+   dispatcher.dispatch<KeyReleasedEvent>(BIND_EVENT_FN(TestLayer::onKeyReleased));
    dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(TestLayer::onScroll));
 }
 
@@ -152,7 +153,20 @@ void TestLayer::onImGuiRender() {
 }
 
 void TestLayer::onUpdate(float timeStamp) {
-   glfwPollEvents();
+
+   if(forward){
+      cam.processKeyboard(CameraMovement::FORWARD, timeStamp);
+   }
+   if(backward){
+      cam.processKeyboard(CameraMovement::BACKWARD, timeStamp);
+   }
+   if(left){
+      cam.processKeyboard(CameraMovement::LEFT, timeStamp);
+   }
+   if(right){
+      cam.processKeyboard(CameraMovement::RIGHT, timeStamp);
+   }
+
    float currentFrame = static_cast<float>(glfwGetTime());
    deltaTime = currentFrame - lastFrame;
    lastFrame = currentFrame;
@@ -199,14 +213,27 @@ bool TestLayer::onMouseMove(MouseMovedEvent &event) {
 }
 
 bool TestLayer::onKeyPressed(KeyPressedEvent &event) {
+   if (event.GetKeyCode() == (KeyCode)Key::W && !event.IsRepeat())
+      forward = true;
+   if (event.GetKeyCode() == (KeyCode)Key::S && !event.IsRepeat())
+      backward = true;
+   if (event.GetKeyCode() == (KeyCode)Key::A && !event.IsRepeat())
+      left = true;
+   if (event.GetKeyCode() == (KeyCode)Key::D && !event.IsRepeat())
+      right = true;
+
+   return true;
+}
+
+bool TestLayer::onKeyReleased(KeyReleasedEvent &event) {
    if (event.GetKeyCode() == (KeyCode)Key::W)
-      cam.processKeyboard(CameraMovement::FORWARD, deltaTime);
+      forward = false;
    if (event.GetKeyCode() == (KeyCode)Key::S)
-      cam.processKeyboard(CameraMovement::BACKWARD, deltaTime);
+      backward = false;
    if (event.GetKeyCode() == (KeyCode)Key::A)
-      cam.processKeyboard(CameraMovement::LEFT, deltaTime);
+      left = false;
    if (event.GetKeyCode() == (KeyCode)Key::D)
-      cam.processKeyboard(CameraMovement::RIGHT, deltaTime);
+      right = false;
 
    return true;
 }

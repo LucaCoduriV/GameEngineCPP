@@ -33,6 +33,8 @@ App::App(): window("Learning OpenGl", 600, 800) {
 void App::run() {
    std::cout << "Loop running." << std::endl;
    while(running){
+      glfwPollEvents();
+
       float time = (float)glfwGetTime();
       float timeStep = time - lastFrameTime;
       lastFrameTime = time;
