@@ -73,9 +73,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-/cmake-build-debug/
-/lib/glew/
-/lib/glfw/
-/lib/glm/
+
+Engine/cmake-build-debug/
+Engine/lib/glew/
+Engine/lib/glfw/
+Engine/lib/glm/
 
 .idea/sonarlint/
