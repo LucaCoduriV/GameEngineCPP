@@ -81,9 +81,7 @@ void TestLayer::onAttach() {
    va = std::make_shared<VertexArray>();
    vb = std::make_shared<VertexBuffer>(positions, sizeof(positions));
    layout = std::make_shared<VertexBufferLayout>();
-   texture = std::make_shared<Texture>("B:\\Users\\lucac\\Documents\\GitHub\\GameEngine"
-                                 "\\Engine\\res"
-                   "\\texture\\texture.png");
+   texture = std::make_shared<Texture>(R"(res\texture\texture.png)");
 
    layout->push<float>(3);
    layout->push<float>(2);
@@ -114,8 +112,8 @@ void TestLayer::onAttach() {
 
 
    shader = std::make_shared<Shader>(
-      R"(B:\Users\lucac\Documents\GitHub\GameEngine\Engine\res\shaders\vertex.glsl)",
-      R"(B:\Users\lucac\Documents\GitHub\GameEngine\Engine\res\shaders\fragment.glsl)");
+      R"(res\shaders\vertex.glsl)",
+      R"(res\shaders\fragment.glsl)");
 
    shader->bind();
    texture->bind();
