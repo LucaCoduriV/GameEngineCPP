@@ -169,6 +169,7 @@ void LightTestLayer::onEvent(Event &event) {
    dispatcher.dispatch<KeyReleasedEvent>(
       BIND_EVENT_FN(LightTestLayer::onKeyReleased));
    dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(LightTestLayer::onScroll));
+   dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(LightTestLayer::onWindowResize));
 }
 
 void LightTestLayer::onImGuiRender() {
@@ -232,4 +233,10 @@ bool LightTestLayer::onKeyReleased(KeyReleasedEvent &event) {
 bool LightTestLayer::onScroll(MouseScrolledEvent &event) {
    cam.processMouseScroll(static_cast<float>(event.GetYOffset()));
    return true;
+}
+
+bool LightTestLayer::onWindowResize(WindowResizeEvent &event) {
+   cam.setScreenWidth(event.getWidth());
+   cam.setScreenHeight(event.getHeight());
+   return false;
 }

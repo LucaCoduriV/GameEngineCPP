@@ -24,6 +24,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "Texture.hpp"
 #include "Shader.hpp"
 #include "Renderer.hpp"
+#include "Events/ApplicationEvent.hpp"
 #include <Layer.hpp>
 
 class LightTestLayer : public Layer {
@@ -39,6 +40,7 @@ public:
    bool onKeyPressed(KeyPressedEvent& event);
    bool onKeyReleased(KeyReleasedEvent& event);
    bool onScroll(MouseScrolledEvent& event);
+   bool onWindowResize(WindowResizeEvent& event);
 private:
    std::shared_ptr<VertexArray> va;
    std::shared_ptr<VertexArray> lightVa;

@@ -45,8 +45,14 @@ public:
 
    glm::vec3 getPosition() const;
 
+   void setScreenWidth(float screenWidth);
+
+   void setScreenHeight(float screenHeight);
+
 private:
    void updateCameraVectors();
+   float screenWidth = 800;
+   float screenHeight = 600;
 
    // camera Attributes
    glm::vec3 position;

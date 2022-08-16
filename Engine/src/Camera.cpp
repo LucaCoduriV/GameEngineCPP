@@ -45,14 +45,12 @@ glm::mat4 Camera::getViewMatrix() const {
 }
 
 void Camera::onUpdate(Shader &shader) const {
-   const int screenWidth = 800;
-   const int screenHeight = 600;
 
    auto view = getViewMatrix();
 
    shader.setMat4f("u_view", view);
    auto proj = glm::perspective(glm::radians(zoom),
-                                (float) screenWidth / (float) screenHeight,
+                                screenWidth / screenHeight,
                                 0.1f, 100.0f);
    shader.setMat4f("u_proj", proj);
 }
@@ -103,4 +101,12 @@ float Camera::getZoom() const {
 
 glm::vec3 Camera::getPosition() const {
    return position;
+}
+
+void Camera::setScreenWidth(float screenWidth) {
+   Camera::screenWidth = screenWidth;
+}
+
+void Camera::setScreenHeight(float screenHeight) {
+   Camera::screenHeight = screenHeight;
 }
