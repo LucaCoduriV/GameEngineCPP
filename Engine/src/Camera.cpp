@@ -100,3 +100,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset,
 float Camera::getZoom() const {
    return zoom;
 }
+
+glm::vec3 Camera::getPosition() const {
+   return position;
+}

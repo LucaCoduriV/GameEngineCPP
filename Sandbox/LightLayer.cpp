@@ -135,6 +135,8 @@ void LightTestLayer::onUpdate(float timeStamp) {
                     objectColors[2]);
    shader->setFloat("u_lightColor",  lightColors[0], lightColors[1], lightColors[2]);
    shader->setFloat("u_lightPos", 2.0f, 0.0f, -2.0f);
+   auto camPos = cam.getPosition();
+   shader->setFloat("u_viewPos", camPos.x, camPos.y, camPos.z);
 
    cam.onUpdate(*shader);
 
@@ -143,11 +145,12 @@ void LightTestLayer::onUpdate(float timeStamp) {
    shader->setMat4f("u_model", model);
    renderer->draw(*va, *shader, 36);
 
-   //cube 2ss
+   //cube 2 (light source)
    lightShader->bind();
    cam.onUpdate(*lightShader);
    model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0f, 0.0f, -2.0f));
    lightShader->setMat4f("u_model", model);
+   lightShader->setFloat("u_lightColor",  lightColors[0], lightColors[1], lightColors[2]);
    renderer->draw(*lightVa, *lightShader, 36);
 }
 
@@ -165,9 +168,9 @@ void LightTestLayer::onEvent(Event &event) {
 }
 
 void LightTestLayer::onImGuiRender() {
-   ImGui::Text("Camera controls");
-   ImGui::ColorEdit3("translation", objectColors);
-   ImGui::ColorEdit3("rotation", lightColors);
+   ImGui::Text("Color controls");
+   ImGui::ColorEdit3("ObjectColor", objectColors);
+   ImGui::ColorEdit3("LightColor", lightColors);
    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                1000.0f / ImGui::GetIO().Framerate,
                ImGui::GetIO().Framerate);
