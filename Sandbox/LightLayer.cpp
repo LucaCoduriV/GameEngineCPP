@@ -134,7 +134,9 @@ void LightTestLayer::onUpdate(float timeStamp) {
    shader->setFloat("u_objectColor", objectColors[0], objectColors[1],
                     objectColors[2]);
    shader->setFloat("u_lightColor",  lightColors[0], lightColors[1], lightColors[2]);
-   shader->setFloat("u_lightPos", 2.0f, 0.0f, -2.0f);
+   shader->setFloat("u_lightPos", lightSourcePos[0],
+                    lightSourcePos[1],
+                    lightSourcePos[2]);
    auto camPos = cam.getPosition();
    shader->setFloat("u_viewPos", camPos.x, camPos.y, camPos.z);
 
@@ -148,7 +150,9 @@ void LightTestLayer::onUpdate(float timeStamp) {
    //cube 2 (light source)
    lightShader->bind();
    cam.onUpdate(*lightShader);
-   model = glm::translate(glm::mat4(1.0f), glm::vec3(2.0f, 0.0f, -2.0f));
+   model = glm::translate(glm::mat4(1.0f), glm::vec3(lightSourcePos[0],
+                                                     lightSourcePos[1],
+                                                     lightSourcePos[2]));
    lightShader->setMat4f("u_model", model);
    lightShader->setFloat("u_lightColor",  lightColors[0], lightColors[1], lightColors[2]);
    renderer->draw(*lightVa, *lightShader, 36);
@@ -171,6 +175,7 @@ void LightTestLayer::onImGuiRender() {
    ImGui::Text("Color controls");
    ImGui::ColorEdit3("ObjectColor", objectColors);
    ImGui::ColorEdit3("LightColor", lightColors);
+   ImGui::SliderFloat3("Light Position", lightSourcePos, -10.0f, 10.0f);
    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                1000.0f / ImGui::GetIO().Framerate,
                ImGui::GetIO().Framerate);

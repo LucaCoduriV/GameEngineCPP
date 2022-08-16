@@ -64,6 +64,7 @@ private:
 
    float objectColors[3] = {1.0f, 0.5f, 0.31f};
    float lightColors[3] = {1.0f, 1.0f, 1.0f};
+   float lightSourcePos[3] = {2.0f, 0.0f, -2.0f};
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;
