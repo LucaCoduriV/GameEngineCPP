@@ -18,7 +18,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "VertexArray.hpp"
 #include "Shader.hpp"
 
-#define ASSERT(x) if (!(x)) __debugbreak()
+#define ASSERT(x) if (!(x)) __builtin_trap()
 #define GLCall(x) GLClearError(); \
    x;                             \
    ASSERT(GLLogCall(#x, __FILE__, __LINE__))

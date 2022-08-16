@@ -39,7 +39,7 @@ Texture::Texture(std::filesystem::path path) : filePath(std::move(path)) {
    {
       std::cout << "\nError: Failed to load texture" << std::endl;
       std::cout << stbi_failure_reason() << std::endl;
-      __debugbreak();
+      __builtin_trap();
    }
    stbi_image_free(localBuffer);
 
