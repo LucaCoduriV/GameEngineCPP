@@ -49,7 +49,7 @@ namespace ECS {
       }
 
       template<typename T>
-      T *assign(EntityID id) {
+      T *assign(EntityID id, T value = {}) {
          auto componentId = getComponentId<T>();
 
          auto entityIndex = getEntityIndex(id);
@@ -68,7 +68,8 @@ namespace ECS {
          }
 
          // on crée un nouvel élément à cet emplacement mémoire
-         auto *pComponent = new(componentPools[componentId]->get(entityIndex)) T();
+         auto *pComponent = new(componentPools[componentId]->get(entityIndex))
+            T(value);
 
          entities[entityIndex].mask.set(componentId);
 
