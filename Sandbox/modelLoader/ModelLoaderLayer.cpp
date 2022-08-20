@@ -14,7 +14,6 @@
 #include <Events/EventDispatcher.hpp>
 #include <Events/MouseEvent.hpp>
 #include <functional>
-#include <filesystem>
 #include <definitions.hpp>
 #include <memory>
 
@@ -29,8 +28,7 @@ void ModelLoaderLayer::onAttach() {
    GLCall(glEnable(GL_BLEND));
    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-   ourModel = std::make_shared<ModelLoader>(std::filesystem::path
-      ("res/models/backpack/backpack.obj"));
+   ourModel = std::make_shared<ModelLoader>("res/models/backpack/backpack.obj");
 
    shader = std::make_shared<Shader>(
       "res/shaders/modelLoader/vertex.glsl",

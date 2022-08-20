@@ -79,3 +79,4 @@ Sandbox/cmake-build-debug/
 cmake-build-debug/
 
 .idea/sonarlint/
+/cmake-build-release/

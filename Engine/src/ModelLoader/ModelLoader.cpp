@@ -7,12 +7,17 @@
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+#include <iostream>
+#include <filesystem>
+
 
 
 ModelLoader::ModelLoader(const std::string &path) {
+   std::string osFreePath = std::filesystem::path(path).string();
+   std::cout << osFreePath << std::endl;
    Assimp::Importer importer;
-   const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate |
-                                                  aiProcess_FlipUVs);
+   const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate /*|
+                                                  aiProcess_FlipUVs*/);
 
    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
       std::cerr << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
@@ -163,7 +168,7 @@ void ModelLoader::Draw(Shader &shader) {
 
 unsigned int TextureFromFile(const char *path, const std::string &directory,
                              bool gamma) {
-   std::cout << "[Texture Path] " << path << std::endl;
+   std::cout << "[Texture Path] " << directory << path << std::endl;
 
    //stbi_set_flip_vertically_on_load(1);
    std::string filename = std::string(path);
