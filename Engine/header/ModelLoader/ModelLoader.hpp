@@ -16,11 +16,7 @@ class ModelLoader {
 public:
    ModelLoader(const std::string &path);
 
-   void Draw(Shader &shader)
-   {
-      for(unsigned int i = 0; i < meshes.size(); i++)
-         meshes[i].Draw(shader);
-   }
+   void Draw(Shader &shader);
 
 private:
    std::string directory;

@@ -156,8 +156,14 @@ ModelLoader::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
    return textures;
 }
 
+void ModelLoader::Draw(Shader &shader) {
+   for(unsigned int i = 0; i < meshes.size(); i++)
+      meshes[i].Draw(shader);
+}
+
 unsigned int TextureFromFile(const char *path, const std::string &directory,
                              bool gamma) {
+   stbi_set_flip_vertically_on_load(1);
    std::string filename = std::string(path);
    filename = directory + '/' + filename;
 

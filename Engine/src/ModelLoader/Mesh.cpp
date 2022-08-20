@@ -22,7 +22,7 @@ void Mesh::Draw(Shader &shader) {
    unsigned int normalNr   = 1;
    unsigned int heightNr   = 1;
 
-   shader.bind();
+   //shader.bind();
 
    for(unsigned int i = 0; i < textures.size(); i++)
    {
