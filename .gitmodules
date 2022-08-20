@@ -7,3 +7,6 @@
 [submodule "Engine/lib/glm"]
 	path = Engine/lib/glm
 	url = https://github.com/g-truc/glm
+[submodule "Engine/lib/assimp"]
+	path = Engine/lib/assimp
+	url = https://github.com/assimp/assimp.git

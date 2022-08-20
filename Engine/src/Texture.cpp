@@ -27,10 +27,18 @@ Texture::Texture(std::filesystem::path path) : filePath(std::move(path)) {
    GLCall(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
 
 
-   localBuffer = stbi_load(filePath.string().c_str(), &width, &height, &bpp, 4);
+   localBuffer = stbi_load(filePath.string().c_str(), &width, &height, &bpp, 0);
    if (localBuffer)
    {
-      GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA,
+      GLenum format;
+      if (bpp == 1)
+         format = GL_RED;
+      else if (bpp == 3)
+         format = GL_RGB;
+      else if (bpp == 4)
+         format = GL_RGBA;
+
+      GLCall(glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format,
                           GL_UNSIGNED_BYTE, localBuffer));
       GLCall(glGenerateMipmap(GL_TEXTURE_2D));
       unbind();

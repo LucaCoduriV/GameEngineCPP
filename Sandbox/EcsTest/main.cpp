@@ -36,14 +36,15 @@ int main(){
    auto voiture3 = scene.newEntity();
 
    scene.assign<TransformComponent>(voiture1, { 1,2,3 });
+   scene.assign<Transform2Component>(voiture1, { 1,2,3 });
 
-   scene.assign<Transform2Component>(voiture2);
+   scene.assign<TransformComponent>(voiture2);
 
    auto t1  = scene.get<TransformComponent>(voiture1);
 
    std::cout << t1->x << " " << t1->y << " " << t1->z  << std::endl;
 
-   for(ECS::EntityID id : ECS::SceneView<TransformComponent>(scene)){
+   for(ECS::EntityID id : ECS::SceneView<TransformComponent, Transform2Component>(scene)){
       std::cout << ECS::getEntityIndex(id) + 1 << std::endl;
    }
 

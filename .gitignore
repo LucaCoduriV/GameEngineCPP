@@ -80,5 +80,6 @@ cmake-build-debug/
 Engine/lib/glew/
 Engine/lib/glfw/
 Engine/lib/glm/
+Engine/lib/assimp/
 
 .idea/sonarlint/
