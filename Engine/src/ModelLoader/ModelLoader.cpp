@@ -163,7 +163,9 @@ void ModelLoader::Draw(Shader &shader) {
 
 unsigned int TextureFromFile(const char *path, const std::string &directory,
                              bool gamma) {
-   stbi_set_flip_vertically_on_load(1);
+   std::cout << "[Texture Path] " << path << std::endl;
+
+   //stbi_set_flip_vertically_on_load(1);
    std::string filename = std::string(path);
    filename = directory + '/' + filename;
 
