@@ -77,9 +77,5 @@ fabric.properties
 Engine/cmake-build-debug/
 Sandbox/cmake-build-debug/
 cmake-build-debug/
-Engine/lib/glew/
-Engine/lib/glfw/
-Engine/lib/glm/
-Engine/lib/assimp/
 
 .idea/sonarlint/
