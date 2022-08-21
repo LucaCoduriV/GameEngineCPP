@@ -26,7 +26,7 @@ namespace GE{
       template<typename T, typename... Args>
       T& AddComponent(Args&&... args){
          T* ptr = scene->registry->assign<T>(id, std::forward<Args>(args)...);
-         scene->template onComponentAdded(*this, *ptr);
+//         scene->onComponentAdded(*this, *ptr);
          return *ptr;
       }
 

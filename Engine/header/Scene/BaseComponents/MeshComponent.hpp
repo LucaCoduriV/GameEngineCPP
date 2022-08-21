@@ -41,6 +41,8 @@ namespace GE{
    struct MeshComponent{
       std::vector<Vertex> vertices;
       std::vector<unsigned int> triangles;
+
+      MeshComponent(const MeshComponent&) = default;
    };
 }
 #endif //SANDBOX_MESHCOMPONENT_HPP

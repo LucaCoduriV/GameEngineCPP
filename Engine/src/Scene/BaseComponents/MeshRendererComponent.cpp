@@ -15,7 +15,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 namespace GE{
    void MeshRendererComponent::init(const std::vector<Vertex>& vertices,
-                                   const std::vector<unsigned int>& uvs){
+                                    const std::vector<unsigned int>& uvs){
       vao = std::make_shared<VertexArray>();
       vbo = std::make_shared<VertexBuffer>(vertices.data(), vertices.size() * sizeof(Vertex));
       ebo = std::make_shared<IndexBuffer>(uvs.data(), uvs.size());

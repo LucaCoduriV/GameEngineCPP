@@ -40,7 +40,7 @@ void Renderer::draw(const VertexArray &va, const IndexBuffer &ib,
 }
 
 void Renderer::clear() {
-   GLCall(glClearColor(0.05f, 0.05f, 0.05f, 1.0f));
+   GLCall(glClearColor(1.0f, 1.0f, 1.0f, 1.0f));
    GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 

@@ -9,10 +9,14 @@
 #include <assimp/postprocess.h>
 #include <iostream>
 #include <filesystem>
+#include <Scene/Entity.hpp>
+#include <iostream>
+#include <Scene/BaseComponents/MeshRendererComponent.hpp>
+#include <Scene/BaseComponents/TagComponent.hpp>
 
 
-
-ModelLoader::ModelLoader(const std::string &path) {
+ModelLoader::ModelLoader(const std::string &path,GE::Scene* gameScene): gameScene
+(gameScene) {
    std::string osFreePath = std::filesystem::path(path).string();
    std::cout << osFreePath << std::endl;
    Assimp::Importer importer;
@@ -32,7 +36,14 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene) {
    // traitement de toutes les mailles du nœud
    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
       aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      meshes.push_back(processMesh(mesh, scene));
+      //meshes.push_back(processMesh(mesh, scene));
+
+      //TODO une copie est faite pour rien
+      auto entity = gameScene->CreateEntity();
+      auto result = entity.AddComponent<GE::MeshComponent>(processMesh(mesh, scene));
+      entity.AddComponent<GE::MeshRendererComponent>();
+      entity.AddComponent<GE::TagComponent>(std::string(mesh->mName.C_Str()));
+      std::cout << result.vertices[0].position[0] << std::endl;
    }
    // effectuer la même opération pour chaque nœud fils
    for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -159,11 +170,6 @@ ModelLoader::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
       }
    }
    return textures;
-}
-
-void ModelLoader::Draw(Shader &shader) {
-   for(unsigned int i = 0; i < meshes.size(); i++)
-      meshes[i].Draw(shader);
 }
 
 unsigned int TextureFromFile(const char *path, const std::string &directory,

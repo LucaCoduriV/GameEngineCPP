@@ -16,19 +16,21 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Shader.hpp>
 #include <VertexBuffer.hpp>
 #include <IndexBuffer.hpp>
+#include <VertexArray.hpp>
 #include <definitions.hpp>
+#include <Scene/BaseComponents/MeshComponent.hpp>
 
 namespace GE{
    class MeshRendererComponent {
    public:
       MeshRendererComponent() = default;
 
-      void MeshRendererComponent::init(const std::vector<Vertex>& vertices,
+      void init(const std::vector<Vertex>& vertices,
                                        const std::vector<unsigned int>& uvs);
       void draw(const Shader &shader);
 
    private:
-      GE::Ref<VertexArray> vao;
+      Ref<VertexArray> vao;
       Ref<VertexBuffer> vbo;
       Ref<IndexBuffer> ebo;
    };

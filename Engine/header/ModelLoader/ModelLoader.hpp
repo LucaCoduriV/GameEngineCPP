@@ -7,6 +7,7 @@
 
 
 #include <Scene/BaseComponents/MeshComponent.hpp>
+#include <Scene/Scene.hpp>
 #include "assimp/scene.h"
 #include "Mesh.hpp"
 
@@ -15,14 +16,12 @@ gamma = false);
 
 class ModelLoader {
 public:
-   ModelLoader(const std::string &path);
-
-   void Draw(Shader &shader);
+   ModelLoader(const std::string &path, GE::Scene* gameScene);
 
 private:
+   GE::Scene* gameScene;
    std::string directory;
    std::vector<STexture> textures_loaded;
-   std::vector<GE::MeshComponent>    meshes;
    bool gammaCorrection;
 
    void processNode(aiNode *node, const aiScene *scene);

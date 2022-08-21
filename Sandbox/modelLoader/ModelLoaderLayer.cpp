@@ -28,13 +28,12 @@ void ModelLoaderLayer::onAttach() {
    GLCall(glEnable(GL_BLEND));
    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-   ourModel = std::make_shared<ModelLoader>("res/models/backpack/backpack.obj");
-
-   shader = std::make_shared<Shader>(
+   scene = GE::makeRef<GE::Scene>();
+   ourModel = GE::makeRef<ModelLoader>("res/models/backpack/backpack.obj", &(*scene));
+   shader = GE::makeRef<Shader>(
       "res/shaders/modelLoader/vertex.glsl",
       "res/shaders/modelLoader/fragment.glsl");
-
-   renderer = std::make_shared<Renderer>();
+   scene->init();
 
 }
 
@@ -54,15 +53,14 @@ void ModelLoaderLayer::onUpdate(float timeStamp) {
    }
 
    renderer->clear();
-
    shader->bind();
-
    cam.onUpdate(*shader);
 
    //cube 1
    auto model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
    shader->setMat4f("u_model", model);
-   ourModel->Draw(*shader);
+
+   scene->draw(*shader);
 
 }
 

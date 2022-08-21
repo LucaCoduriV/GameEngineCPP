@@ -44,6 +44,7 @@ private:
    Camera cam;
 
    GE::Ref<ModelLoader> ourModel;
+   GE::Ref<GE::Scene> scene;
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;
