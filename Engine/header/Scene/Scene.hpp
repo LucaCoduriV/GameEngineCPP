@@ -15,10 +15,9 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include "definitions.hpp"
 #include <string>
-#include <Ecs/Registry.hpp>
 #include <memory>
-#include <Ecs/SceneView.hpp>
 #include <Shader.hpp>
+#include <entt.hpp>
 
 namespace GE{
    class Entity;
@@ -33,20 +32,11 @@ namespace GE{
       Entity CreateEntity(const std::string& name = std::string());
       void DestroyEntity(Entity entity);
 
-      template<typename...ComponentTypes>
-      ECS::SceneView<ComponentTypes...> getSceneView(){
-         return ECS::SceneView<ComponentTypes...>(registry);
-      }
-
-
       void draw(Shader& shader);
       void init();
 
-//      template<typename T>
-//      void onComponentAdded(Entity& entity, T& component);
-
    private:
-      GE::Ref<ECS::Registry> registry;
+      entt::registry registry;
 
    };
 }

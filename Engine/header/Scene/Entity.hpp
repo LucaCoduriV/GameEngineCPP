@@ -21,40 +21,48 @@ namespace GE{
       friend class Scene;
 
    public:
-      explicit Entity(unsigned long long id, Scene* scene);
+      explicit Entity(entt::entity handle, Scene* scene);
 
       template<typename T, typename... Args>
       T& AddComponent(Args&&... args){
-         T* ptr = scene->registry->assign<T>(id, std::forward<Args>(args)...);
-//         scene->onComponentAdded(*this, *ptr);
-         return *ptr;
+         T& component =
+            scene->registry.emplace<T>(entityHandle, std::forward<Args>(args)...);
+         return component;
+      }
+
+      template<typename T, typename... Args>
+      T& AddOrReplaceComponent(Args&&... args)
+      {
+         T& component = scene->registry.emplace_or_replace<T>(entityHandle,
+                                                            std::forward<Args>(args)...);
+         return component;
       }
 
       template<typename T>
       T& GetComponent(){
-         T* ptr = scene->registry->get<T>(id);
-         return *ptr;
+         T& component = scene->registry.get<T>(entityHandle);
+         return component;
       }
 
       template<typename T>
       bool HasComponent(){
-         T* ptr = scene->registry->get<T>(id);
+         T* ptr = scene->registry.try_get<T>(entityHandle);
          return ptr != nullptr;
       }
 
       template<typename T>
       void RemoveComponent(){
-         scene->registry->remove<T>(id);
+         scene->registry.remove<T>(entityHandle);
       }
 
-      [[nodiscard]] unsigned long long getId() const;
+      [[nodiscard]] entt::entity Entity::getHandle() const;
 
       bool operator==(const Entity &rhs) const;
 
       bool operator!=(const Entity &rhs) const;
 
    private:
-      unsigned long long id;
+      entt::entity entityHandle{entt::null};
       Scene* scene;
 
    };
