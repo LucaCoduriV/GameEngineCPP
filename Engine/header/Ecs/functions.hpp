@@ -10,8 +10,11 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 */
 
-#ifndef SANDBOX_FUNCTIONS_HPP
-#define SANDBOX_FUNCTIONS_HPP
+#ifndef ECS_FUNCTIONS_HPP
+#define ECS_FUNCTIONS_HPP
+
+#include <bitset>
+
 namespace ECS {
    static int componentCounter = 0;
    static const int MAX_COMPONENTS = 32;
@@ -52,4 +55,4 @@ namespace ECS {
    }
 }
 #define INVALID_ENTITY createEntityId(EntityIndex(-1), 0)
-#endif //SANDBOX_FUNCTIONS_HPP
+#endif //ECS_FUNCTIONS_HPP

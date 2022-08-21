@@ -16,6 +16,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <iostream>
 #include "Renderer.hpp"
 #include <glm/gtc/type_ptr.hpp>
+#include "definitions.hpp"
 
 
 Shader::Shader(const std::filesystem::path& vertexPath, const

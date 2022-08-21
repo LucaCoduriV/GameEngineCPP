@@ -23,6 +23,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Events/MouseEvent.hpp>
 #include <functional>
 #include <filesystem>
+#include <definitions.hpp>
 
 TestLayer::TestLayer() : Layer("TestLayer"), cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
 

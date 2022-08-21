@@ -4,7 +4,7 @@
 
 #include "ModelLoader/Mesh.hpp"
 #include "IndexBuffer.hpp"
-#include "Renderer.hpp"
+#include "definitions.hpp"
 
 Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
            std::vector<STexture> textures) {

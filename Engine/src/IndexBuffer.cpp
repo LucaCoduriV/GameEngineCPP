@@ -12,6 +12,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include "IndexBuffer.hpp"
 #include "Renderer.hpp"
+#include "definitions.hpp"
 
 IndexBuffer::IndexBuffer(const unsigned int *data, unsigned int count)
    : count(count) {

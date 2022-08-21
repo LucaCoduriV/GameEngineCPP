@@ -44,7 +44,7 @@ public:
    std::vector<unsigned int> indices;
    std::vector<STexture>      textures;
 
-   GM::Ref<VertexArray> vao;
+   GE::Ref<VertexArray> vao;
 
    // constructor
    Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices,
@@ -55,8 +55,8 @@ public:
 
 private:
    // render data
-   GM::Ref<VertexBuffer> vbo;
-   GM::Ref<IndexBuffer> ebo;
+   GE::Ref<VertexBuffer> vbo;
+   GE::Ref<IndexBuffer> ebo;
 
    // initializes all the buffer objects/arrays
    void setupMesh();

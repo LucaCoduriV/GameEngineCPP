@@ -12,6 +12,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include "VertexArray.hpp"
 #include "Renderer.hpp"
+#include "definitions.hpp"
 
 VertexArray::VertexArray() {
    GLCall(glGenVertexArrays(1, &rendererID));

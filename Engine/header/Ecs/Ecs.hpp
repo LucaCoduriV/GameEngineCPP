@@ -17,7 +17,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <bitset>
 #include <vector>
 #include <limits>
-#include "Scene.hpp"
+#include "Registry.hpp"
 #include "SceneView.hpp"
 #include "ComponentPool.hpp"
 #include "functions.hpp"

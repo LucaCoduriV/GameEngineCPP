@@ -14,6 +14,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <VertexArray.hpp>
 #include <IndexBuffer.hpp>
 #include <Renderer.hpp>
+#include <definitions.hpp>
 #include <Texture.hpp>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>

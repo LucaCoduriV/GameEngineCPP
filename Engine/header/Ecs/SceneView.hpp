@@ -10,16 +10,17 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 */
 
-#ifndef SANDBOX_SCENEVIEW_HPP
-#define SANDBOX_SCENEVIEW_HPP
+#ifndef ECS_SCENEVIEW_HPP
+#define ECS_SCENEVIEW_HPP
 
 #include "functions.hpp"
+#include "Registry.hpp"
 
 namespace ECS {
    template<typename... ComponentTypes>
    class SceneView {
    public:
-      SceneView(Scene &scene) : pScene(&scene) {
+      SceneView(Registry &scene) : pScene(&scene) {
          if (sizeof...(ComponentTypes) == 0) {
             all = true;
          } else {
@@ -34,7 +35,7 @@ namespace ECS {
 
       class Iterator {
       public:
-         Iterator(Scene *pScene, EntityIndex index, ComponentMask mask, bool all)
+         Iterator(Registry *pScene, EntityIndex index, ComponentMask mask, bool all)
             : pScene(pScene), index(index), mask(mask), all(all) {}
 
          ECS::EntityID operator*() const {
@@ -66,7 +67,7 @@ namespace ECS {
             return index;
          }
       private:
-         Scene *pScene;
+         Registry *pScene;
          EntityIndex index;
          ComponentMask mask;
          bool all = false;
@@ -88,7 +89,7 @@ namespace ECS {
                          all);
       }
    private:
-      Scene *pScene = nullptr;
+      Registry *pScene = nullptr;
       ComponentMask componentMask;
       bool all = false;
    };

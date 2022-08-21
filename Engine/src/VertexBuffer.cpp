@@ -11,6 +11,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 */
 
 #include "VertexBuffer.hpp"
+#include "definitions.hpp"
 #include "Renderer.hpp"
 
 VertexBuffer::VertexBuffer(const void *data, unsigned int size) {

@@ -10,16 +10,17 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 */
 
-#ifndef SANDBOX_SCENE_HPP
-#define SANDBOX_SCENE_HPP
+#ifndef ECS_REGISTRY_HPP
+#define ECS_REGISTRY_HPP
 
 
 #include "functions.hpp"
 #include "ComponentPool.hpp"
+#include "vector"
 
 namespace ECS {
 
-   class Scene {
+   class Registry {
       template<typename...> friend class SceneView;
    public:
       EntityID newEntity() {
@@ -48,8 +49,8 @@ namespace ECS {
          freeEntities.push_back(getEntityIndex(id));
       }
 
-      template<typename T>
-      T *assign(EntityID id, T value = {}) {
+      template<typename T, typename...Args>
+      T *assign(EntityID id, Args&&... args) {
          auto componentId = getComponentId<T>();
 
          auto entityIndex = getEntityIndex(id);
@@ -69,7 +70,7 @@ namespace ECS {
 
          // on crée un nouvel élément à cet emplacement mémoire
          auto *pComponent = new(componentPools[componentId]->get(entityIndex))
-            T(value);
+            T(std::forward<Args>(args)...);
 
          entities[entityIndex].mask.set(componentId);
 

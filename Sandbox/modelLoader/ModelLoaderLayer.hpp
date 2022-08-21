@@ -43,7 +43,7 @@ private:
 
    Camera cam;
 
-   GM::Ref<ModelLoader> ourModel;
+   GE::Ref<ModelLoader> ourModel;
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;

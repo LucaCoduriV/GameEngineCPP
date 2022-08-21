@@ -12,6 +12,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 #include "Renderer.hpp"
 #include <iostream>
+#include "definitions.hpp"
 
 void GLClearError(){
    while (glGetError() != GL_NO_ERROR);

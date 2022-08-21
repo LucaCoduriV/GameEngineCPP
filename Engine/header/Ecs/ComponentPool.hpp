@@ -10,8 +10,8 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 */
 
-#ifndef SANDBOX_COMPONENTPOOL_HPP
-#define SANDBOX_COMPONENTPOOL_HPP
+#ifndef ECS_COMPONENTPOOL_HPP
+#define ECS_COMPONENTPOOL_HPP
 
 #include "functions.hpp"
 
@@ -36,4 +36,4 @@ namespace ECS{
       size_t elementSize = 0;
    };
 }
-#endif //SANDBOX_COMPONENTPOOL_HPP
+#endif //ECS_COMPONENTPOOL_HPP

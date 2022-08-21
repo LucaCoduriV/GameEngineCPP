@@ -18,19 +18,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include "VertexArray.hpp"
 #include "Shader.hpp"
 
-#if _MSC_VER
-   #define DEBUGBREAK __debugbreak()
-#else
-   #define DEBUGBREAK __builtin_trap()
-#endif
-#define ASSERT(x) if (!(x)) DEBUGBREAK
-#define GLCall(x) GLClearError(); \
-   x;                             \
-   ASSERT(GLLogCall(#x, __FILE__, __LINE__))
 
-void GLClearError();
-
-bool GLLogCall(const char *function, const char *file, int line);
 
 class Renderer{
 public:
