@@ -9,8 +9,6 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 -----------------------------------------------------------------------------------
 
 */
-
-#include <ModelLoader/Mesh.hpp>
 #include "Scene/BaseComponents/MeshRendererComponent.hpp"
 
 namespace GE{

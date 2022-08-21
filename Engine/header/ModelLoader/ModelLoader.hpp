@@ -10,7 +10,6 @@
 #include <Scene/Scene.hpp>
 #include <Scene/BaseComponents/MaterialComponent.hpp>
 #include "assimp/scene.h"
-#include "Mesh.hpp"
 
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool
 gamma = false);

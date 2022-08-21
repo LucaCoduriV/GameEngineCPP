@@ -33,8 +33,7 @@ add_library(Engine
         header/Events/MouseEvent.hpp header/MouseCode.hpp src/App.cpp header/App.hpp
         src/Events/KeyEvent.cpp header/Events/KeyEvent.hpp header/KeyCode.hpp
         src/Layer.cpp header/Layer.hpp src/ModelLoader/ModelLoader.cpp
-        header/ModelLoader/ModelLoader.hpp src/ModelLoader/Mesh.cpp
-        header/ModelLoader/Mesh.hpp header/definitions.hpp
+        header/ModelLoader/ModelLoader.hpp header/definitions.hpp
         header/Scene/BaseComponents/TransformComponent.hpp
         header/Scene/BaseComponents/MeshComponent.hpp src/Scene/Entity.cpp
         header/Scene/Entity.hpp header/Scene/BaseComponents/TagComponent.hpp
