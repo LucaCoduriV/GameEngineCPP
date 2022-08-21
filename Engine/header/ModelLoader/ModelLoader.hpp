@@ -6,6 +6,7 @@
 #define SANDBOX_MODELLOADER_HPP
 
 
+#include <Scene/BaseComponents/MeshComponent.hpp>
 #include "assimp/scene.h"
 #include "Mesh.hpp"
 
@@ -21,12 +22,12 @@ public:
 private:
    std::string directory;
    std::vector<STexture> textures_loaded;
-   std::vector<Mesh>    meshes;
+   std::vector<GE::MeshComponent>    meshes;
    bool gammaCorrection;
 
    void processNode(aiNode *node, const aiScene *scene);
 
-   Mesh processMesh(aiMesh *mesh, const aiScene *scene);
+   GE::MeshComponent processMesh(aiMesh *mesh, const aiScene *scene);
 
    // checks all material textures of a given type and loads the textures if they're not loaded yet.
    // the required info is returned as a Texture struct.

@@ -21,15 +21,26 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define MAX_BONE_INFLUENCE 4
 
 namespace GE{
+   struct Vertex {
+      // position
+      glm::vec3 position;
+      // normal
+      glm::vec3 normal;
+      // texCoords
+      glm::vec2 uv;
+      // tangent
+      glm::vec3 tangent;
+      // bitangent
+      glm::vec3 bitangent;
+      //bone indexes which will influence this vertex
+      int m_BoneIDs[MAX_BONE_INFLUENCE];
+      //weights from each bone
+      float m_Weights[MAX_BONE_INFLUENCE];
+   };
+
    struct MeshComponent{
-      std::vector<glm::vec3> vertices;
-      std::vector<glm::vec2> uvs;
+      std::vector<Vertex> vertices;
       std::vector<unsigned int> triangles;
-      std::vector<glm::vec3> Normal;
-      std::vector<glm::vec3> Tangent;
-      std::vector<glm::vec3> Bitangent;
-      std::vector<std::array<int, MAX_BONE_INFLUENCE>> boneIDs;
-      std::vector<std::array<int, MAX_BONE_INFLUENCE>> weights;
    };
 }
 #endif //SANDBOX_MESHCOMPONENT_HPP
