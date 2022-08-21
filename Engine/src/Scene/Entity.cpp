@@ -15,8 +15,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 namespace GE{
    Entity::Entity(unsigned long long id, Scene* scene):id
-   (id), scene
-   (std::move(scene)) {}
+   (id), scene(scene) {}
 
    unsigned long long Entity::getId() const {
       return id;

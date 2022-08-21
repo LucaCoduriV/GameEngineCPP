@@ -32,7 +32,15 @@ namespace GE{
    Entity Scene::CreateEntity(const std::string &name) {
       auto id = registry->newEntity();
       registry->assign<TagComponent>(id, name);
-      registry->assign<TransformComponent>(id);
+      auto* transform = registry->assign<TransformComponent>(id);
+
+      transform->position.x = 0.0f;
+      transform->position.y = 0.0f;
+      transform->position.z = 0.0f;
+
+      transform->scale.x = 1.0f;
+      transform->scale.y = 1.0f;
+      transform->scale.z = 1.0f;
 
       return Entity(id, this);
    }
@@ -51,14 +59,31 @@ namespace GE{
    void Scene::draw(Shader& shader) {
       for(auto id : ECS::SceneView<GE::MeshRendererComponent, GE::TransformComponent>
          (*registry)){
-
+         static bool test = false;
 
          auto& meshRenderer = *registry->get<GE::MeshRendererComponent>(id);
-         auto& transform = *registry->get<GE::TransformComponent>(id);
-         transform.position.x += GE::Random::genDouble(-0.02f, 0.02f);
-         transform.position.y += GE::Random::genDouble(-0.02f, 0.02f);
-         auto model = glm::translate(glm::mat4(1.0f), transform.position);
+
+         //////////////////transform///////////////////
+         auto* transform = registry->get<GE::TransformComponent>(id);
+
+
+            transform->scale.x = 1.0f;
+            transform->scale.y = 1.0f;
+            transform->scale.z = 1.0f;
+            test = true;
+
+         transform = registry->get<GE::TransformComponent>(id);
+
+         std::cout << transform->scale.x << " " << transform->scale.y << " " <<
+         transform->scale.z << " " << std::endl;
+
+         glm::mat4 model = glm::mat4(1.0f);
+         model = glm::scale(model, transform->scale);
+         model = glm::translate(model, transform->position);
+
+
          shader.setMat4f("u_model", model);
+         //////////////////////////////////////////////
 
          /////////////////////textures/////////////////
          if(auto* mat = registry->get<GE::MaterialComponent>(id)){

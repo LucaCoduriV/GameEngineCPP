@@ -35,9 +35,6 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene) {
    // traitement de toutes les mailles du nœud
    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
       aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      //meshes.push_back(processMesh(mesh, scene));
-
-      //TODO une copie est faite pour rien
       auto entity = gameScene->CreateEntity();
 
       processMesh(mesh, scene, entity);
