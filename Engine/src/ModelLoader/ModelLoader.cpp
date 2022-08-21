@@ -35,14 +35,11 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene) {
    // traitement de toutes les mailles du nœud
    for (unsigned int i = 0; i < node->mNumMeshes; i++) {
       aiMesh *mesh = scene->mMeshes[node->mMeshes[i]];
-      //meshes.push_back(processMesh(mesh, scene));
-
-      //TODO une copie est faite pour rien
       auto entity = gameScene->CreateEntity();
 
       processMesh(mesh, scene, entity);
       entity.AddComponent<GE::MeshRendererComponent>();
-      entity.AddComponent<GE::TagComponent>(std::string(mesh->mName.C_Str()));
+      entity.GetComponent<GE::TagComponent>().tag = std::string(mesh->mName.C_Str());
    }
    // effectuer la même opération pour chaque nœud fils
    for (unsigned int i = 0; i < node->mNumChildren; i++) {

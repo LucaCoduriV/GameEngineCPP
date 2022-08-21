@@ -11,6 +11,7 @@ add_subdirectory(lib/glfw EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glew EXCLUDE_FROM_ALL)
 add_subdirectory(lib/glm EXCLUDE_FROM_ALL)
 add_subdirectory(lib/assimp EXCLUDE_FROM_ALL)
+add_subdirectory(lib/entt EXCLUDE_FROM_ALL)
 
 file(GLOB files
         "header/vendor/*/*.h"
@@ -40,12 +41,9 @@ add_library(Engine
         src/Scene/Scene.cpp header/Scene/Scene.hpp
         src/Scene/BaseComponents/MeshRendererComponent.cpp
         header/Scene/BaseComponents/MeshRendererComponent.hpp
-        header/Ecs/ComponentPool.hpp
-        header/Ecs/SceneView.hpp
-        header/Ecs/Ecs.hpp
-        header/Ecs/functions.hpp
-        header/Ecs/Registry.hpp
-        header/Math/Random.hpp src/Math/Random.cpp header/Scene/BaseComponents/MaterialComponent.hpp src/Scene/BaseComponents/MaterialComponent.cpp)
+        header/Math/Random.hpp
+        src/Math/Random.cpp header/Scene/BaseComponents/MaterialComponent.hpp
+        src/Scene/BaseComponents/MaterialComponent.cpp)
 
 #target_precompile_headers(Engine PRIVATE header/pch.hpp)
 target_include_directories(Engine PUBLIC header)
@@ -54,4 +52,5 @@ target_link_libraries(Engine
         libglew_static
         glm
         assimp
+        Entt
         )
