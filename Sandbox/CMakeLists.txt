@@ -5,7 +5,5 @@ add_executable(Sandbox main.cpp TestLayer.cpp TestLayer.hpp LightLayer.cpp
         LightLayer.hpp modelLoader/ModelLoaderLayer.cpp modelLoader/ModelLoaderLayer.hpp)
 target_link_libraries(Sandbox PRIVATE Engine)
 
-add_executable(EcsTest EcsTest/main.cpp)
-target_link_libraries(EcsTest PRIVATE Engine)
 
 FILE(COPY res/ DESTINATION "${CMAKE_BINARY_DIR}/${NAME}/res")

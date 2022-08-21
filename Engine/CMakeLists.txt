@@ -38,7 +38,9 @@ add_library(Engine
         header/Scene/BaseComponents/TransformComponent.hpp
         header/Scene/BaseComponents/MeshComponent.hpp src/Scene/Entity.cpp
         header/Scene/Entity.hpp header/Scene/BaseComponents/TagComponent.hpp
-        src/Scene/Scene.cpp header/Scene/Scene.hpp)
+        src/Scene/Scene.cpp header/Scene/Scene.hpp
+        src/Scene/BaseComponents/MeshRendererComponent.cpp
+        header/Scene/BaseComponents/MeshRendererComponent.hpp)
 
 #target_precompile_headers(Engine PRIVATE header/pch.hpp)
 target_include_directories(Engine PUBLIC header)
