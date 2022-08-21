@@ -39,7 +39,7 @@ namespace GE{
       }
 
 
-      void draw(const Shader& shader);
+      void draw(Shader& shader);
       void init();
 
 //      template<typename T>

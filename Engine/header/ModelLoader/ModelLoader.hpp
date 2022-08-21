@@ -8,6 +8,7 @@
 
 #include <Scene/BaseComponents/MeshComponent.hpp>
 #include <Scene/Scene.hpp>
+#include <Scene/BaseComponents/MaterialComponent.hpp>
 #include "assimp/scene.h"
 #include "Mesh.hpp"
 
@@ -21,17 +22,17 @@ public:
 private:
    GE::Scene* gameScene;
    std::string directory;
-   std::vector<STexture> textures_loaded;
+   std::vector<GE::Texture> textures_loaded;
    bool gammaCorrection;
 
    void processNode(aiNode *node, const aiScene *scene);
 
-   GE::MeshComponent processMesh(aiMesh *mesh, const aiScene *scene);
+   void processMesh(aiMesh *mesh, const aiScene *scene, GE::Entity& entity);
 
    // checks all material textures of a given type and loads the textures if they're not loaded yet.
    // the required info is returned as a Texture struct.
-   std::vector<STexture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
-                                         std::string typeName);
+   std::vector<GE::Texture> loadMaterialTextures(aiMaterial *mat, aiTextureType type,
+                                         GE::TextureType typeName);
 
 };
 

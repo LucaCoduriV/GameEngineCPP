@@ -10,7 +10,6 @@
 #include <iostream>
 #include <filesystem>
 #include <Scene/Entity.hpp>
-#include <iostream>
 #include <Scene/BaseComponents/MeshRendererComponent.hpp>
 #include <Scene/BaseComponents/TagComponent.hpp>
 
@@ -40,10 +39,10 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene) {
 
       //TODO une copie est faite pour rien
       auto entity = gameScene->CreateEntity();
-      auto result = entity.AddComponent<GE::MeshComponent>(processMesh(mesh, scene));
+
+      processMesh(mesh, scene, entity);
       entity.AddComponent<GE::MeshRendererComponent>();
       entity.AddComponent<GE::TagComponent>(std::string(mesh->mName.C_Str()));
-      std::cout << result.vertices[0].position[0] << std::endl;
    }
    // effectuer la même opération pour chaque nœud fils
    for (unsigned int i = 0; i < node->mNumChildren; i++) {
@@ -51,11 +50,12 @@ void ModelLoader::processNode(aiNode *node, const aiScene *scene) {
    }
 }
 
-GE::MeshComponent ModelLoader::processMesh(aiMesh *mesh, const aiScene *scene) {
+void ModelLoader::processMesh(aiMesh *mesh, const aiScene *scene,
+                                           GE::Entity& entity) {
    // data to fill
    std::vector<GE::Vertex> vertices;
    std::vector<unsigned int> indices;
-   std::vector<STexture> textures;
+   std::vector<GE::Texture> textures;
 
    // walk through each of the mesh's vertices
    for(unsigned int i = 0; i < mesh->mNumVertices; i++)
@@ -120,30 +120,35 @@ GE::MeshComponent ModelLoader::processMesh(aiMesh *mesh, const aiScene *scene) {
    // normal: texture_normalN
 
    // 1. diffuse maps
-//   std::vector<STexture> diffuseMaps = loadMaterialTextures(material,
-//                                                           aiTextureType_DIFFUSE, "texture_diffuse");
-//   textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-//   // 2. specular maps
-//   std::vector<STexture> specularMaps = loadMaterialTextures(material,
-//                                                            aiTextureType_SPECULAR, "texture_specular");
-//   textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-//   // 3. normal maps
-//   std::vector<STexture> normalMaps = loadMaterialTextures(material,
-//                                                           aiTextureType_HEIGHT, "texture_normal");
-//   textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-//   // 4. height maps
-//   std::vector<STexture> heightMaps = loadMaterialTextures(material,
-//                                                           aiTextureType_AMBIENT, "texture_height");
-//   textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+   std::vector<GE::Texture> diffuseMaps = loadMaterialTextures(material,
+                                                           aiTextureType_DIFFUSE,
+                                                           GE::TextureType::Diffuse);
+   textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+   // 2. specular maps
+   std::vector<GE::Texture> specularMaps = loadMaterialTextures(material,
+                                                            aiTextureType_SPECULAR, GE::TextureType::Specular);
+   textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+   // 3. normal maps
+   std::vector<GE::Texture> normalMaps = loadMaterialTextures(material,
+                                                           aiTextureType_HEIGHT,
+                                                           GE::TextureType::Normal);
+   textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+   // 4. height maps
+   std::vector<GE::Texture> heightMaps = loadMaterialTextures(material,
+                                                           aiTextureType_AMBIENT,
+                                                           GE::TextureType::Height);
+   textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
    // return a mesh object created from the extracted mesh data
-   return {vertices, indices};
+   entity.AddComponent<GE::MeshComponent>(vertices, indices);
+   auto& materialComponent = entity.AddComponent<GE::MaterialComponent>();
+   materialComponent.textures = textures;
 }
 
-std::vector<STexture>
+std::vector<GE::Texture>
 ModelLoader::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
-                                  std::string typeName) {
-   std::vector<STexture> textures;
+                                  GE::TextureType typeName) {
+   std::vector<GE::Texture> textures;
    for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
    {
       aiString str;
@@ -161,7 +166,7 @@ ModelLoader::loadMaterialTextures(aiMaterial *mat, aiTextureType type,
       }
       if(!skip)
       {   // if texture hasn't been loaded already, load it
-         STexture texture;
+         GE::Texture texture;
          texture.id = TextureFromFile(str.C_Str(), this->directory);
          texture.type = typeName;
          texture.path = str.C_Str();

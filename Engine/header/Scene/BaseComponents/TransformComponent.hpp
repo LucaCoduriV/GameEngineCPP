@@ -17,9 +17,9 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 namespace GE{
    struct TransformComponent{
-      glm::vec3 position = { 0.0f, 0.0f, 0.0f };
-      glm::vec3 rotation = { 0.0f, 0.0f, 0.0f };
-      glm::vec3 scale = { 0.0f, 0.0f, 0.0f };
+      glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
+      glm::vec3 rotation = glm::vec3(0.0f, 0.0f, 0.0f);
+      glm::vec3 scale = glm::vec3(0.0f, 0.0f, 0.0f);
 
       TransformComponent() = default;
       TransformComponent(const TransformComponent&) = default;

@@ -41,8 +41,7 @@ namespace GE{
       // draw mesh
       vao->bind();
       ebo->bind();
-      GLCall(glDrawElements(GL_TRIANGLES, ebo->getCount(), GL_UNSIGNED_INT,
-                            0));
+      GLCall(glDrawElements(GL_TRIANGLES, ebo->getCount(), GL_UNSIGNED_INT, 0));
 
       VertexArray::unbind();
 

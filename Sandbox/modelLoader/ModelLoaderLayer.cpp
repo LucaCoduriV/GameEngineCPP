@@ -56,10 +56,6 @@ void ModelLoaderLayer::onUpdate(float timeStamp) {
    shader->bind();
    cam.onUpdate(*shader);
 
-   //cube 1
-   auto model = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-   shader->setMat4f("u_model", model);
-
    scene->draw(*shader);
 
 }

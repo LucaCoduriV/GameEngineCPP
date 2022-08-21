@@ -46,7 +46,7 @@ add_library(Engine
         header/Ecs/Ecs.hpp
         header/Ecs/functions.hpp
         header/Ecs/Registry.hpp
-        )
+        header/Math/Random.hpp src/Math/Random.cpp header/Scene/BaseComponents/MaterialComponent.hpp src/Scene/BaseComponents/MaterialComponent.cpp)
 
 #target_precompile_headers(Engine PRIVATE header/pch.hpp)
 target_include_directories(Engine PUBLIC header)

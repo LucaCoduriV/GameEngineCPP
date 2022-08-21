@@ -42,6 +42,9 @@ namespace GE{
       std::vector<Vertex> vertices;
       std::vector<unsigned int> triangles;
 
+      MeshComponent(const std::vector<Vertex>& vertices,
+                    const std::vector<unsigned int>& triangles):
+                    vertices(vertices), triangles(triangles){}
       MeshComponent(const MeshComponent&) = default;
    };
 }
