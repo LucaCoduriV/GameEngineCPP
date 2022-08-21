@@ -79,14 +79,21 @@ namespace GE{
                // retrieve texture number (the N in diffuse_textureN)
                std::string number;
                auto type = textures[i].type;
-               if(type == TextureType::Diffuse)
-                  number = std::to_string(diffuseNr++);
-               else if(type == TextureType::Specular)
-                  number = std::to_string(specularNr++); // transfer unsigned int to string
-               else if(type == TextureType::Normal)
-                  number = std::to_string(normalNr++); // transfer unsigned int to string
-               else if(type == TextureType::Height)
-                  number = std::to_string(heightNr++); // transfer unsigned int to string
+
+               switch(type){
+                  case TextureType::Diffuse:
+                     number = std::to_string(diffuseNr++);
+                     break;
+                  case TextureType::Specular:
+                     number = std::to_string(specularNr++);
+                     break;
+                  case TextureType::Normal:
+                     number = std::to_string(normalNr++);
+                     break;
+                  case TextureType::Height:
+                     number = std::to_string(heightNr++);
+                     break;
+               }
 
                // now set the sampler to the correct texture unit
                GLCall(glUniform1i(glGetUniformLocation(shader.ID,
