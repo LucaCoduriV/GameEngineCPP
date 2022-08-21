@@ -55,7 +55,7 @@ namespace GE{
          scene->registry.remove<T>(entityHandle);
       }
 
-      [[nodiscard]] entt::entity Entity::getHandle() const;
+      [[nodiscard]] entt::entity getHandle() const;
 
       bool operator==(const Entity &rhs) const;
 
