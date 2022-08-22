@@ -31,8 +31,8 @@ void ModelLoaderLayer::onAttach() {
    scene = GE::makeRef<GE::Scene>();
    ourModel = GE::makeRef<ModelLoader>("res/models/backpack/backpack.obj", &(*scene));
    shader = GE::makeRef<Shader>(
-      "res/shaders/modelLoader/vertex.glsl",
-      "res/shaders/modelLoader/fragment.glsl");
+      "res/shaders/material/vertex.glsl",
+      "res/shaders/material/fragment.glsl");
    scene->init();
 
 }

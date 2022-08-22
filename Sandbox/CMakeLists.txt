@@ -6,4 +6,4 @@ add_executable(Sandbox main.cpp TestLayer.cpp TestLayer.hpp LightLayer.cpp
 target_link_libraries(Sandbox PRIVATE Engine)
 
 
-FILE(COPY res/ DESTINATION "${CMAKE_BINARY_DIR}/${NAME}/res")
+#FILE(COPY res/ DESTINATION "${CMAKE_BINARY_DIR}/${NAME}/res")
