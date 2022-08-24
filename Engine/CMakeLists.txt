@@ -43,7 +43,7 @@ add_library(Engine
         header/Scene/BaseComponents/MeshRendererComponent.hpp
         header/Math/Random.hpp
         src/Math/Random.cpp header/Scene/BaseComponents/MaterialComponent.hpp
-        src/Scene/BaseComponents/MaterialComponent.cpp)
+        src/Scene/BaseComponents/MaterialComponent.cpp header/Scene/BaseComponents/PointLightComponent.hpp header/Scene/BaseComponents/SpotLightComponent.hpp header/Scene/BaseComponents/DirectionalLightComponent.hpp header/Shader/ShaderBuilder.cpp header/Shader/ShaderBuilder.hpp)
 
 #target_precompile_headers(Engine PRIVATE header/pch.hpp)
 target_include_directories(Engine PUBLIC header)
