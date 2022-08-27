@@ -26,8 +26,12 @@ public:
    unsigned int ID;
 
    // le constructeur lit et construit le shader
-   Shader(const std::filesystem::path& vertexPath, const std::filesystem::path&
+   explicit Shader(const std::filesystem::path& vertexPath, const
+   std::filesystem::path&
    fragmentPath);
+
+   explicit Shader(const std::string& vertexProgram, const std::string&
+   fragmentProgram);
 
    // Activation du shader
    void bind();
@@ -55,6 +59,7 @@ public:
 private:
    [[nodiscard]] int getUniformLocation(const std::string &name);
    static void checkCompileErrors(unsigned int shader, const std::string &type);
+   void compileShader(const std::string& vertexProgram, const std::string& fragmentProgram);
    std::unordered_map<std::string, int> uniformLocationCache;
 
 };

@@ -49,30 +49,8 @@ std::filesystem::path& fragmentPath) {
       std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << e.what()
                 << std::endl;
    }
-   const char *vShaderCode = vertexCode.c_str();
-   const char *fShaderCode = fragmentCode.c_str();
-   // 2. compile shaders
-   unsigned int vertex;
-   unsigned int fragment;
-   // vertex shader
-   vertex = glCreateShader(GL_VERTEX_SHADER);
-   glShaderSource(vertex, 1, &vShaderCode, NULL);
-   glCompileShader(vertex);
-   checkCompileErrors(vertex, "VERTEX");
-   // fragment Shader
-   fragment = glCreateShader(GL_FRAGMENT_SHADER);
-   glShaderSource(fragment, 1, &fShaderCode, NULL);
-   glCompileShader(fragment);
-   checkCompileErrors(fragment, "FRAGMENT");
-   // shader Program
-   ID = glCreateProgram();
-   glAttachShader(ID, vertex);
-   glAttachShader(ID, fragment);
-   glLinkProgram(ID);
-   checkCompileErrors(ID, "PROGRAM");
-   // delete the shaders as they're linked into our program now and no longer necessary
-   glDeleteShader(vertex);
-   glDeleteShader(fragment);
+
+   compileShader(vertexCode, fragmentCode);
 }
 
 void Shader::bind() {
@@ -152,6 +130,39 @@ int Shader::getUniformLocation(const std::string &name) {
 void Shader::setMat4f(const std::string &name, const glm::mat4& value) {
    GLCall(glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE,
                          glm::value_ptr(value)));
+}
+
+void Shader::compileShader(const std::string& vertexProgram, const std::string&
+fragmentProgram) {
+   const char *vShaderCode = vertexProgram.c_str();
+   const char *fShaderCode = fragmentProgram.c_str();
+   // 2. compile shaders
+   unsigned int vertex;
+   unsigned int fragment;
+   // vertex shader
+   vertex = glCreateShader(GL_VERTEX_SHADER);
+   glShaderSource(vertex, 1, &vShaderCode, NULL);
+   glCompileShader(vertex);
+   checkCompileErrors(vertex, "VERTEX");
+   // fragment Shader
+   fragment = glCreateShader(GL_FRAGMENT_SHADER);
+   glShaderSource(fragment, 1, &fShaderCode, NULL);
+   glCompileShader(fragment);
+   checkCompileErrors(fragment, "FRAGMENT");
+   // shader Program
+   ID = glCreateProgram();
+   glAttachShader(ID, vertex);
+   glAttachShader(ID, fragment);
+   glLinkProgram(ID);
+   checkCompileErrors(ID, "PROGRAM");
+   // delete the shaders as they're linked into our program now and no longer necessary
+   glDeleteShader(vertex);
+   glDeleteShader(fragment);
+}
+
+Shader::Shader(const std::string &vertexProgram, const std::string&
+fragmentProgram) {
+   compileShader(vertexProgram, fragmentProgram);
 }
 
 

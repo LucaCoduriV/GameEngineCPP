@@ -40,7 +40,7 @@ struct SpotLight {
     vec3 specular;
 };
 
-#define PP_NR_POINT_LIGHTS 4
+
 
 out vec4 FragColor;
 
@@ -50,6 +50,7 @@ in vec3 FragPos;
 
 uniform sampler2D texture_diffuse1;
 
+uniform vec3 viewPos;
 uniform SpotLight spotlight;
 uniform Material material;
 uniform DirLight dirLight;
@@ -61,7 +62,33 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
 void main()
 {
-    FragColor = texture(texture_diffuse1, TexCoords);
+    vec3 norm = normalize(Normal);
+    vec3 viewDir = normalize(viewPos - FragPos);
+
+    // == =====================================================
+    // Our lighting is set up in 3 phases: directional, point lights and an optional flashlight
+    // For each phase, a calculate function is defined that calculates the corresponding color
+    // per lamp. In the main() function we take all the calculated colors and sum them up for
+    // this fragment's final color.
+    // == =====================================================
+    // phase 1: directional lighting
+    vec3 result = vec3(1.0);
+
+    #if (PP_NR_DIR_LIGHTS > 0)
+    CalcDirLight(dirLight, norm, viewDir);
+    #endif
+    // phase 2: point lights
+    #if (PP_NR_POINT_LIGHTS > 0)
+    for (int i = 0; i < PP_NR_POINT_LIGHTS; i++){
+        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);
+    }
+    #endif
+
+    #if (PP_NR_SPOT_LIGHTS > 0)
+    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);
+    #endif
+
+    FragColor = vec4(result, 1.0);
 }
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)

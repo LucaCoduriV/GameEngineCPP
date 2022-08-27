@@ -21,14 +21,19 @@ namespace GE {
    class ShaderBuilder {
    public:
       explicit ShaderBuilder(
-         const std::unordered_map<std::string, std::string>& vertexDefines,
-         const std::unordered_map<std::string, std::string>& fragmentDefines,
-         const std::filesystem::path& vertexPath,
-         const std::filesystem::path& fragmentPath
-         );
+         const std::unordered_map<std::string, std::string> &vertexDefines,
+         const std::unordered_map<std::string, std::string> &fragmentDefines,
+         const std::filesystem::path &vertexPath,
+         const std::filesystem::path &fragmentPath
+      );
+
+      const std::string &getVertexProgram() const;
+
+      const std::string &getFragmentProgram() const;
 
    private:
-      std::unordered_map<std::string, std::string> values;
+      std::string vertexProgram;
+      std::string fragmentProgram;
 
    };
 }

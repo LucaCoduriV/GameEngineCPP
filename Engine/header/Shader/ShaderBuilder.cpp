@@ -73,9 +73,19 @@ GE::ShaderBuilder::ShaderBuilder(
       if (posF ==  std::string::npos){
          throw std::runtime_error("something wrong in file, no new line found");
       }
-      vertexCode.insert(
+      fragmentCode.insert(
          posF + 1,
          std::string("#define ") + v.first + " " + v.second + "\n");
    }
 
+   this->vertexProgram = vertexCode;
+   this->fragmentProgram = fragmentCode;
+}
+
+const std::string &GE::ShaderBuilder::getVertexProgram() const {
+   return vertexProgram;
+}
+
+const std::string &GE::ShaderBuilder::getFragmentProgram() const {
+   return fragmentProgram;
 }
