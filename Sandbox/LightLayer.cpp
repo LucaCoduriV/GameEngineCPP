@@ -94,12 +94,12 @@ void LightTestLayer::onAttach() {
 
 
    shader = std::make_shared<Shader>(
-      "res/shaders/light/normal/vertex.glsl",
-      "res/shaders/light/normal/fragment.glsl");
+      std::filesystem::path("res/shaders/light/normal/vertex.glsl"),
+      std::filesystem::path("res/shaders/light/normal/fragment.glsl"));
 
    lightShader = std::make_shared<Shader>(
-      "res/shaders/light/lightsource/vertex.glsl",
-      "res/shaders/light/lightsource/fragment.glsl");
+      std::filesystem::path("res/shaders/light/lightsource/vertex.glsl"),
+      std::filesystem::path("res/shaders/light/lightsource/fragment.glsl"));
 
    VertexArray::unbind();
    Shader::unbind();

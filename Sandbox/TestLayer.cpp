@@ -115,8 +115,8 @@ void TestLayer::onAttach() {
 
 
    shader = std::make_shared<Shader>(
-      "res/shaders/vertex.glsl",
-      "res/shaders/fragment.glsl");
+      std::filesystem::path("res/shaders/vertex.glsl"),
+      std::filesystem::path("res/shaders/fragment.glsl"));
 
    shader->bind();
    texture->bind();
