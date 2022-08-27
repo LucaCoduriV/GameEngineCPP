@@ -14,14 +14,17 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define ENGINE_DIRECTIONALLIGHTCOMPONENT_HPP
 
 #include <glm/vec3.hpp>
+#include "Shader.hpp"
 
 namespace GE{
-   struct DirLight {
+   struct DirLightComponent {
       glm::vec3 direction;
 
       glm::vec3 ambient;
       glm::vec3 diffuse;
       glm::vec3 specular;
+
+      void sendToShader(Shader& shader) const;
    };
 }
 

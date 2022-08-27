@@ -24,6 +24,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <Scene/BaseComponents/MaterialComponent.hpp>
 #include <Shader/ShaderBuilder.hpp>
 #include <Scene/BaseComponents/PointLightComponent.hpp>
+#include <Scene/BaseComponents/DirectionalLightComponent.hpp>
 
 
 namespace GE {
@@ -31,9 +32,9 @@ namespace GE {
       /////// TEMPORAIRE //////////
       GE::ShaderBuilder builder({},
                                 {
-                                   {"PP_NR_POINT_LIGHTS", "1"},
+                                   {"PP_NR_POINT_LIGHTS", "0"},
                                    {"PP_NR_SPOT_LIGHTS",  "0"},
-                                   {"PP_NR_DIR_LIGHTS",   "0"}
+                                   {"PP_NR_DIR_LIGHTS",   "1"}
                                 },
                                 std::filesystem::path(
                                    "res/shaders/material/vertex.glsl"),
@@ -62,9 +63,15 @@ namespace GE {
 
 
    void Scene::draw(Shader &shader) {
-      auto lightsView = registry.view<GE::PointLightComponent>();
-      for(auto light : lightsView){
-         auto comp = lightsView.get<GE::PointLightComponent>(light);
+      auto pointLightsView = registry.view<GE::PointLightComponent>();
+      for(auto light : pointLightsView){
+         auto comp = pointLightsView.get<GE::PointLightComponent>(light);
+         comp.sendToShader(shader);
+      }
+
+      auto dirLightView = registry.view<GE::DirLightComponent>();
+      for(auto light : dirLightView){
+         auto comp = dirLightView.get<GE::DirLightComponent>(light);
          comp.sendToShader(shader);
       }
 
@@ -122,7 +129,7 @@ namespace GE {
                }
 
 
-               shader.setInt(std::string("material.")
+               shader.setInt(std::string("u_material.")
                + typeName + "[" + std::to_string(i) + "]", textures[i].id);
 
                GLCall(glBindTexture(GL_TEXTURE_2D, textures[i].id));

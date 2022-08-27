@@ -36,11 +36,9 @@ namespace GE{
 
       for (auto& texture : textures){
          std::string typeName = getTextureTypeName(texture.type);
-         shader.setInt(std::string("material.") + typeName, texture.id);
+         shader.setInt(std::string("u_material.") + typeName, texture.id);
       }
-
-
-      shader.setInt("material.specular", 1);
+      shader.setFloat("u_material.shininess", 32.0f);
    }
 }
 

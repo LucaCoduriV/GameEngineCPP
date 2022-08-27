@@ -46,7 +46,7 @@ private:
    GE::Ref<ModelLoader> ourModel;
    GE::Ref<GE::Scene> scene;
    GE::Ref<GE::Entity> light;
-   float lightPos[3] = {0.0f};
+   float lightPos[3] = {-0.2f, -1.0f, -0.3f};
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;

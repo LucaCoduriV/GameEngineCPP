@@ -20,6 +20,7 @@
 #include <iostream>
 #include <Scene/Entity.hpp>
 #include <Scene/BaseComponents/PointLightComponent.hpp>
+#include <Scene/BaseComponents/DirectionalLightComponent.hpp>
 
 ModelLoaderLayer::ModelLoaderLayer() : Layer("LightLayer"),
                                        cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
@@ -46,6 +47,12 @@ void ModelLoaderLayer::onAttach() {
    pl.linear = 0.09f;
    pl.quadratic = 0.032f;
 
+   auto& dl = light->AddComponent<GE::DirLightComponent>();
+   dl.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+   dl.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
+   dl.diffuse = glm::vec3(0.4f, 0.4f, 0.4f);
+   dl.specular = glm::vec3(0.5f, 0.5f, 0.5f);
+
    scene->init();
 
 }
@@ -67,10 +74,10 @@ void ModelLoaderLayer::onUpdate(float timeStamp) {
 
    renderer->clear();
    scene->shader->bind();
-   auto& l = light->GetComponent<GE::PointLightComponent>();
-   l.position.x = lightPos[0];
-   l.position.y = lightPos[1];
-   l.position.z = lightPos[2];
+   auto& l = light->GetComponent<GE::DirLightComponent>();
+   l.direction.x = lightPos[0];
+   l.direction.y = lightPos[1];
+   l.direction.z = lightPos[2];
 
    cam.onUpdate(*scene->shader);
 
