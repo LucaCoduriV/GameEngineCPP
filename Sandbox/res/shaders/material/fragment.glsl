@@ -45,16 +45,16 @@ struct SpotLight {
 out vec4 FragColor;
 
 in vec2 TexCoords;
-in vec2 Normal;
+in vec3 Normal;
 in vec3 FragPos;
 
 uniform sampler2D texture_diffuse1;
 
 uniform vec3 viewPos;
-uniform SpotLight spotlight;
+uniform SpotLight spotLight;
 uniform Material material;
 uniform DirLight dirLight;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform PointLight pointLights[PP_NR_POINT_LIGHTS];
 
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
