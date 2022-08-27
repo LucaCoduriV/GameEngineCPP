@@ -27,7 +27,7 @@ namespace GE{
    std::string getTextureTypeName(TextureType type);
 
    struct Texture {
-      unsigned int id;
+      int id;
       TextureType type;
       std::string path; // pour du debug
 
@@ -40,6 +40,8 @@ namespace GE{
    struct MaterialComponent{
       ShaderType shaderType = ShaderType::Normal;
       std::vector<Texture> textures;
+
+      void sendToShader(Shader& shader) const;
    };
 }
 #endif //SANDBOX_MATERIALCOMPONENT_HPP

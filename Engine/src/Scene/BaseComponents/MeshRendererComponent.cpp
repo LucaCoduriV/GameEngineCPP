@@ -9,6 +9,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 -----------------------------------------------------------------------------------
 
 */
+
 #include "Scene/BaseComponents/MeshRendererComponent.hpp"
 
 namespace GE{
@@ -38,4 +39,5 @@ namespace GE{
       VertexArray::unbind();
 
    }
+
 }

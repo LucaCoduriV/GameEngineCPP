@@ -35,8 +35,11 @@ namespace GE{
       void draw(Shader& shader);
       void init();
 
+      std::shared_ptr<Shader> shader;
+
    private:
       entt::registry registry;
+
 
    };
 }

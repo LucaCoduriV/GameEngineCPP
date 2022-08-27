@@ -10,6 +10,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 
 */
 
+#include <Shader.hpp>
 #include "Scene/BaseComponents/MaterialComponent.hpp"
 
 namespace GE{
@@ -17,16 +18,29 @@ namespace GE{
       switch (type) {
 
          case TextureType::Diffuse:
-            return "texture_diffuse";
+            return "diffuse";
          case TextureType::Specular:
-            return "texture_specular";
+            return "specular";
          case TextureType::Normal:
-            return "texture_normal";
+            return "normal";
          case TextureType::Height:
-            return "texture_height";
+            return "height";
          default:
             return "undefined";
       }
+   }
+
+   void MaterialComponent::sendToShader(Shader &shader) const {
+
+      shader.bind();
+
+      for (auto& texture : textures){
+         std::string typeName = getTextureTypeName(texture.type);
+         shader.setInt(std::string("material.") + typeName, texture.id);
+      }
+
+
+      shader.setInt("material.specular", 1);
    }
 }
 

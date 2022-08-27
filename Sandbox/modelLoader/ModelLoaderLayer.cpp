@@ -18,6 +18,8 @@
 #include <memory>
 #include <Shader/ShaderBuilder.hpp>
 #include <iostream>
+#include <Scene/Entity.hpp>
+#include <Scene/BaseComponents/PointLightComponent.hpp>
 
 ModelLoaderLayer::ModelLoaderLayer() : Layer("LightLayer"),
                                        cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
@@ -33,23 +35,17 @@ void ModelLoaderLayer::onAttach() {
    scene = GE::makeRef<GE::Scene>();
    ourModel = GE::makeRef<ModelLoader>("res/models/backpack/backpack.obj",
                                        &(*scene));
-   GE::ShaderBuilder builder({},
-                     {
-                        {"PP_NR_POINT_LIGHTS", "4"},
-                        {"PP_NR_SPOT_LIGHTS",  "4"},
-                        {"PP_NR_DIR_LIGHTS",   "4"}
-                     },
-                     std::filesystem::path("res/shaders/material/vertex.glsl"),
-                     std::filesystem::path("res/shaders/material/fragment.glsl")
-   );
 
-   std::cout << builder.getVertexProgram() << std::endl;
-   std::cout << builder.getFragmentProgram() << std::endl;
+   light = GE::makeRef<GE::Entity>(scene->CreateEntity("Light"));
+   auto& pl = light->AddComponent<GE::PointLightComponent>();
+   pl.position = glm::vec3(-0.5f,-0.5f,-0.5f);
+   pl.ambient = glm::vec3(0.05f, 0.05f, 0.05f);
+   pl.diffuse = glm::vec3(0.8f, 0.8f, 0.8f);
+   pl.specular = glm::vec3(1.0f, 1.0f, 1.0f);
+   pl.constant = 1.0f;
+   pl.linear = 0.09f;
+   pl.quadratic = 0.032f;
 
-   shader = GE::makeRef<Shader>(
-      builder.getVertexProgram(),
-      builder.getFragmentProgram()
-   );
    scene->init();
 
 }
@@ -70,10 +66,15 @@ void ModelLoaderLayer::onUpdate(float timeStamp) {
    }
 
    renderer->clear();
-   shader->bind();
-   cam.onUpdate(*shader);
+   scene->shader->bind();
+   auto& l = light->GetComponent<GE::PointLightComponent>();
+   l.position.x = lightPos[0];
+   l.position.y = lightPos[1];
+   l.position.z = lightPos[2];
 
-   scene->draw(*shader);
+   cam.onUpdate(*scene->shader);
+
+   scene->draw(*scene->shader);
 
 }
 
@@ -96,7 +97,8 @@ void ModelLoaderLayer::onEvent(Event &event) {
 }
 
 void ModelLoaderLayer::onImGuiRender() {
-   ImGui::Text("Color controls");
+   ImGui::Text("light control");
+   ImGui::SliderFloat3("position", lightPos,-5.0f, 5.0f);
    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
                1000.0f / ImGui::GetIO().Framerate,
                ImGui::GetIO().Framerate);

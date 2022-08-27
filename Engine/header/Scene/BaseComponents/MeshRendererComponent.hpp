@@ -19,6 +19,7 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #include <VertexArray.hpp>
 #include <definitions.hpp>
 #include <Scene/BaseComponents/MeshComponent.hpp>
+#include <Scene/BaseComponents/MaterialComponent.hpp>
 
 namespace GE{
    class MeshRendererComponent {

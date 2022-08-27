@@ -22,6 +22,7 @@
 #include "definitions.hpp"
 #include <Layer.hpp>
 #include <ModelLoader/ModelLoader.hpp>
+#include <Scene/Entity.hpp>
 
 class ModelLoaderLayer : public Layer {
 public:
@@ -38,13 +39,14 @@ public:
    bool onScroll(MouseScrolledEvent& event);
    bool onWindowResize(WindowResizeEvent& event);
 private:
-   std::shared_ptr<Shader> shader;
    std::shared_ptr<Renderer> renderer;
 
    Camera cam;
 
    GE::Ref<ModelLoader> ourModel;
    GE::Ref<GE::Scene> scene;
+   GE::Ref<GE::Entity> light;
+   float lightPos[3] = {0.0f};
 
    float deltaTime = 0.0f;
    float lastFrame = 0.0f;

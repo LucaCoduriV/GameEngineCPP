@@ -22,6 +22,7 @@ namespace GE{
 
    public:
       explicit Entity(entt::entity handle, Scene* scene);
+      Entity(const Entity& other) = default;
 
       template<typename T, typename... Args>
       T& AddComponent(Args&&... args){

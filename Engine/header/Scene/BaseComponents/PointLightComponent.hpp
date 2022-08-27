@@ -14,9 +14,10 @@ Compilateur     : Mingw-w64 g++ 8.1.0
 #define ENGINE_POINTLIGHTCOMPONENT_HPP
 
 #include <glm/vec3.hpp>
+#include "Shader.hpp"
 
 namespace GE{
-   struct PointLight {
+   struct PointLightComponent {
       glm::vec3 position;
 
       float constant;
@@ -26,7 +27,14 @@ namespace GE{
       glm::vec3 ambient;
       glm::vec3 diffuse;
       glm::vec3 specular;
+
+      void sendToShader(Shader& shader) const;
+
    };
+
+
+
+
 }
 
 
