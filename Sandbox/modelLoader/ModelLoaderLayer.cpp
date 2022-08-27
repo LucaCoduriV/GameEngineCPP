@@ -16,9 +16,11 @@
 #include <functional>
 #include <definitions.hpp>
 #include <memory>
+#include <Shader/ShaderBuilder.hpp>
+#include <iostream>
 
 ModelLoaderLayer::ModelLoaderLayer() : Layer("LightLayer"),
-                                   cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
+                                       cam(glm::vec3(0.0f, 0.0f, 0.0f)) {
 
 }
 
@@ -29,10 +31,25 @@ void ModelLoaderLayer::onAttach() {
    GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
    scene = GE::makeRef<GE::Scene>();
-   ourModel = GE::makeRef<ModelLoader>("res/models/backpack/backpack.obj", &(*scene));
+   ourModel = GE::makeRef<ModelLoader>("res/models/backpack/backpack.obj",
+                                       &(*scene));
+   GE::ShaderBuilder builder({},
+                     {
+                        {"PP_NR_POINT_LIGHTS", "4"},
+                        {"PP_NR_SPOT_LIGHTS",  "4"},
+                        {"PP_NR_DIR_LIGHTS",   "4"}
+                     },
+                     std::filesystem::path("res/shaders/material/vertex.glsl"),
+                     std::filesystem::path("res/shaders/material/fragment.glsl")
+   );
+
+   std::cout << builder.getVertexProgram() << std::endl;
+   std::cout << builder.getFragmentProgram() << std::endl;
+
    shader = GE::makeRef<Shader>(
-      "res/shaders/material/vertex.glsl",
-      "res/shaders/material/fragment.glsl");
+      builder.getVertexProgram(),
+      builder.getFragmentProgram()
+   );
    scene->init();
 
 }
@@ -66,12 +83,16 @@ void ModelLoaderLayer::onDetach() {
 
 void ModelLoaderLayer::onEvent(Event &event) {
    EventDispatcher dispatcher(event);
-   dispatcher.dispatch<MouseMovedEvent>(BIND_EVENT_FN(ModelLoaderLayer::onMouseMove));
-   dispatcher.dispatch<KeyPressedEvent>(BIND_EVENT_FN(ModelLoaderLayer::onKeyPressed));
+   dispatcher.dispatch<MouseMovedEvent>(
+      BIND_EVENT_FN(ModelLoaderLayer::onMouseMove));
+   dispatcher.dispatch<KeyPressedEvent>(
+      BIND_EVENT_FN(ModelLoaderLayer::onKeyPressed));
    dispatcher.dispatch<KeyReleasedEvent>(
       BIND_EVENT_FN(ModelLoaderLayer::onKeyReleased));
-   dispatcher.dispatch<MouseScrolledEvent>(BIND_EVENT_FN(ModelLoaderLayer::onScroll));
-   dispatcher.dispatch<WindowResizeEvent>(BIND_EVENT_FN(ModelLoaderLayer::onWindowResize));
+   dispatcher.dispatch<MouseScrolledEvent>(
+      BIND_EVENT_FN(ModelLoaderLayer::onScroll));
+   dispatcher.dispatch<WindowResizeEvent>(
+      BIND_EVENT_FN(ModelLoaderLayer::onWindowResize));
 }
 
 void ModelLoaderLayer::onImGuiRender() {
